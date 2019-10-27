@@ -1,24 +1,24 @@
 <template>
-  <div v-on:click="companyClick()" class="compnay-info">
-    <h1>Company Info</h1>
-    <div v-if="companySearch" class="companyContent">
-      <div>
+  <div class="company-info">
+    <h1 v-on:click="companyClick()">Company Info</h1>
+    <div v-if="companySearch" class="company-content">
+      <div class="company-content-category">
         <a :href="info.website" target="_blank">{{info.companyName}}</a>
       </div>
       <div>
-        <span>Symbol -</span>
+        <span class="company-content-category">Symbol -</span>
         {{info.symbol}}
       </div>
       <div>
-        <span>Exchange -</span>
+        <span class="company-content-category">Exchange -</span>
         {{info.exchange}}
       </div>
       <div>
-        <span>Sector -</span>
+        <span class="company-content-category">Sector -</span>
         {{info.sector}}
       </div>
       <div>
-        <span>Description -</span>
+        <span class="company-content-category">Description -</span>
         {{info.description}}
       </div>
     </div>
@@ -65,5 +65,18 @@ a {
 }
 h1 {
   cursor: pointer;
+}
+.company-info {
+  flex-basis: 50%;
+}
+.company-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+}
+.company-content-category {
+  font-size: 20px;
+  font-weight: 600;
 }
 </style>

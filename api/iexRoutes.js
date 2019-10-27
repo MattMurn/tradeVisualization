@@ -5,7 +5,7 @@ module.exports = app => {
 
   routes.forEach(route => {
     return app.get(`/product-source/${route}/:ticker`,(req, res) => {
-      axios.get(`https://sandbox.iexapis.com/stable/stock/${req.params.ticker}/${route}?token=${process.env.IEX}`)
+      axios.get(`https://sandbox.iexapis.com/v1/stock/${req.params.ticker}/${route}?token=${process.env.IEX}`)
       .then(response => res.json(response.data))
       .catch(error => res.status(500).json("api response not received."));
     })
