@@ -68,6 +68,7 @@ h1 {
 }
 .company-info {
   flex-basis: 50%;
+  padding: 0 10px;
 }
 .company-content {
   display: flex;
