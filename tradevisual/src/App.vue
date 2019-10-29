@@ -1,29 +1,38 @@
 <template>
   <div id="app">
     <SearchBar v-on:handleTickerSubmit="handleSubmit" />
+    <div class="data-wrapper">
+      <Active :info="this.mostActiveData" />
+      <Chart :info="this.companyData" />
+    </div>
     <div class="app-qual-data">
-      <CompanyInfo :info="this.companyInfo" />
+      <CompanyInfo :info="this.companyData" />
       <Snapshot :info="this.snapshotData" />
     </div>
   </div>
 </template>
 
 <script>
-import SearchBar from "./components/SearchBar.vue";
+import Active from "./components/Active.vue";
+import Chart from "./components/Chart.vue";
 import CompanyInfo from "./components/CompanyInfo.vue";
+import SearchBar from "./components/SearchBar.vue";
 import Snapshot from "./components/Snapshot.vue";
-import { getSnapshotData, getCompanyInfo } from "./routes.js";
+import { getMostActive, getCompanyInfo, getSnapshotData } from "./routes.js";
 export default {
   name: "app",
   components: {
-    SearchBar,
+    Active,
+    Chart,
     CompanyInfo,
+    SearchBar,
     Snapshot
   },
   data: () => {
     return {
       ticker: "",
-      companyInfo: {},
+      mostActiveData: {},
+      companyData: {},
       snapshotData: {}
     };
   },
@@ -33,7 +42,7 @@ export default {
       console.log(ticker);
       getCompanyInfo(ticker).then(data => {
         console.log(data);
-        this.companyInfo = data.data;
+        this.companyData = data.data;
       });
       getSnapshotData(ticker).then(data => {
         this.snapshotData = data.data;
@@ -42,6 +51,7 @@ export default {
     }
   },
   mounted() {
+    getMostActive().then( data => this.mostActiveData = data.data);
     console.log("app initialized & mounted");
   }
 };
@@ -60,5 +70,8 @@ export default {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
+}
+.data-wrapper {
+  display: flex;
 }
 </style>

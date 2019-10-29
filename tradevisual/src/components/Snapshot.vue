@@ -82,7 +82,10 @@ export default {
     },
     calcMid: function() {
       if (this.info.week52High && this.info.week52Low) {
-        this.midPoint = ((this.info.week52High + this.info.week52Low) / 2).toFixed(2);
+        this.midPoint = (
+          (this.info.week52High + this.info.week52Low) /
+          2
+        ).toFixed(2);
       }
     },
     calcFrom: function() {
@@ -91,7 +94,6 @@ export default {
       let latest = this.info.latestPrice;
       this.fromHigh = (((high - latest) / high) * 100).toFixed(2);
       this.fromLow = (((latest - low) / low) * 100).toFixed(2);
-
     }
   },
   beforeUpdate() {
