@@ -1,10 +1,10 @@
 <template>
   <div class="most-active">
-    <ul v-bind:key="format.companyName" v-for="format in info">
-      <li>{{format.companyName}}</li>
-      <li>{{format.latestPrice}}</li>
-      <li>{{(format.changePercent *100).toFixed(2)}}</li>
-    </ul>
+    <div class="most-active-container" v-bind:key="format.symbol" v-for="format in info">
+      <span>{{format.symbol}}</span>
+      <span>{{format.latestPrice}}</span>
+      <span>{{(format.changePercent *100).toFixed(2)}}%</span>
+    </div>
   </div>
 </template>
 
@@ -44,6 +44,22 @@ a {
 .most-active {
   height: 300px;
   flex-basis: 30%;
-  background: cornflowerblue;
+    display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 4px;
+  border: #42b983 solid 2px;
+}
+.most-active-container {
+  cursor: pointer;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+
+}
+.most-active-container:active {
+  color: #42b983;
+}
+.most-active-container span:nth-child(1) {
+  grid-row: 1/3;
+  font-size: 20px;
 }
 </style>
