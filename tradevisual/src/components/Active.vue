@@ -1,6 +1,7 @@
 <template>
   <div class="most-active">
-    <div class="most-active-container" v-bind:key="format.symbol" v-for="format in info">
+
+    <div v-on:click="sendActive(format)" class="most-active-container" v-bind:key="format.symbol" v-for="format in info">
       <span>{{format.symbol}}</span>
       <span>{{format.latestPrice}}</span>
       <span>{{(format.changePercent *100).toFixed(2)}}%</span>
@@ -15,13 +16,13 @@ export default {
     return {};
   },
   props: {
-    info: Object
+    info: Array
   },
-  methods: {},
-  mounted() {
-    console.log(this.info);
-    console.log("most-active mounted");
-  }
+  methods: {
+    sendActive: function(symbol) {
+      this.$emit("handleActiveSubmit", symbol);
+    }
+  },
 };
 </script>
 

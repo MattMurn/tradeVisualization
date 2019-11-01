@@ -2,8 +2,8 @@
   <div id="app">
     <SearchBar v-on:handleTickerSubmit="handleSubmit" />
     <div class="data-wrapper">
-      <Active :info="this.mostActiveData" />
-      <Chart :info="this.companyData" />
+      <Active v-on:handleActiveSubmit="handleActiveSubmit" :info="this.mostActiveData" />
+      <Chart />
     </div>
     <div class="app-qual-data">
       <CompanyInfo :info="this.companyData" />
@@ -41,13 +41,21 @@ export default {
       // this.submitResponse = response;
       console.log(ticker);
       getCompanyInfo(ticker).then(data => {
-        console.log(data);
+        console.log(typeof(data), 'company');
         this.companyData = data.data;
       });
       getSnapshotData(ticker).then(data => {
         this.snapshotData = data.data;
         console.log(data);
       });
+    },
+    handleActiveSubmit: function(activeData) {
+      getCompanyInfo(activeData.symbol)
+      .then(data => {
+
+        this.companyData = data.data;
+      });
+      this.snapshotData = activeData;
     }
   },
   mounted() {

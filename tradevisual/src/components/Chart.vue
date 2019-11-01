@@ -1,14 +1,26 @@
 <template>
-  <div class="chart"></div>
+  <div class="chart">
+        <h1 v-on:click="chartClick()">Chart Info</h1>
+    <div v-if="chartShow" class="company-content">
+
+    </div>
+  </div>
 </template>
 
 <script>
 export default {
   name: "Chart",
   data: () => {
-    return {};
+    return {
+      chartShow: false
+    };
   },
-  methods: {},
+  methods: {
+    chartClick: function() {
+      console.log('chart clicked');
+      this.chartShow = !this.chartShow;
+    }
+  },
   mounted() {
     console.log("chart mounted");
   }
