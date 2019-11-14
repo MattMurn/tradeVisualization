@@ -16,11 +16,11 @@ export default {
   name: "Active",
   data: () => {
     return {
-      showInfo: false
+      showInfo: true
     };
   },
   props: {
-    info: Array,
+    info: Object,
     title: String
   },
   methods: {
@@ -32,10 +32,6 @@ export default {
     }
   },
   mounted() {
-    //lazy way of checking if response
-    // if(this.info) this.showInfo = true;
-    console.log(this.info);
-    console.log(this.title);
   }
 };
 </script>

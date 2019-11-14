@@ -1,35 +1,43 @@
 <template>
   <div id="app">
-    <h1 class="appTitle">IEX Equity Monitor</h1>
-    <SearchBar v-on:handleTickerSubmit="handleSubmit" />
-    <H1>{{this.curCompany || "Enter a Stock Symbol"}}</H1>
-    <div class="data-wrapper">
+    <div class="header-container">
+    <h1 class="app-title">IEX Equity Monitor</h1>
+    <SearchBar v-on:handleTickerSubmit="handleSubmit"/>
+    <h1 class="cur-company">{{this.curCompany }}</h1>
+    </div>
+    <div class="flex-data-wrapper">
+    <div class="data-side-nav">
       <Active title="Active" v-on:handleActiveSubmit="handleActiveSubmit" :info="this.mostActiveData" />
       <Active title="Winners" v-on:handleActiveSubmit="handleActiveSubmit" :info="this.gainersData" />
       <Active title="Losers" v-on:handleActiveSubmit="handleActiveSubmit" :info="this.losersData" />
       <!-- <Active :title="Volume" v-on:handleActiveSubmit="handleActiveSubmit" :info="this.iexVolumeData" />
       <Active :title="Percent" v-on:handleActiveSubmit="handleActiveSubmit" :info="this.iexPercentData" /> -->
     </div>
-      <!-- <Chart /> -->
+    <div class="data-body">
+    <div class="data-chart">
+      <Chart :info="this.chartData"/>
+    </div>
     <div class="app-qual-data">
       <CompanyInfo :info="this.companyData" />
       <Snapshot :info="this.snapshotData" />
     </div>
+    </div>
   </div>
+    </div>
 </template>
 
 <script>
 import Active from "./components/Active.vue";
-// import Chart from "./components/Chart.vue";
+import Chart from "./components/Chart.vue";
 import CompanyInfo from "./components/CompanyInfo.vue";
 import SearchBar from "./components/SearchBar.vue";
 import Snapshot from "./components/Snapshot.vue";
-import { getIndexLeaders, getCompanyInfo, getSnapshotData } from "./routes.js";
+import { getChartData, getSnapshotData, getCompanyInfo, getIndexLeaders } from "./routes.js";
 export default {
   name: "app",
   components: {
     Active,
-    // Chart,
+    Chart,
     CompanyInfo,
     SearchBar,
     Snapshot
@@ -44,26 +52,29 @@ export default {
       iexVolumeData: {},
       iexPercentData: {},
       companyData: {},
-      snapshotData: {}
+      snapshotData: {},
+      chartData: {}
     };
   },
   methods: {
     handleSubmit: function(ticker) {
       // this.submitResponse = response;
-      console.log(ticker);
       getCompanyInfo(ticker).then(data => {
-        console.log(typeof data, "company");
         this.companyData = data.data;
+        this.curCompany = data.data.companyName;
+
       });
+      getChartData(ticker).then(data => {
+        this.chartData = data.data;
+      })
       getSnapshotData(ticker).then(data => {
         this.snapshotData = data.data;
-        console.log(data);
+        // console.log(data);
       });
     },
     handleActiveSubmit: function(activeData) {
       getCompanyInfo(activeData.symbol).then(data => {
         this.companyData = data.data;
-        console.log(data.data);
         this.curCompany = data.data.companyName;
       });
       this.snapshotData = activeData;
@@ -80,12 +91,6 @@ export default {
     getIndexLeaders("losers").then(data => {
       this.losersData = data.data;
     });
-    getIndexLeaders("iexvolume").then(data => {
-      this.volumeData = data.data;
-    });
-    getIndexLeaders("iexpercent").then( data => {
-      this.percentData = data.data
-    });
   }
 };
 </script>
@@ -97,20 +102,39 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+
 }
-.appTitle {
+.cur-company {
+  height: 60px;
+  margin: 20px 0;
+}
+.flex-data-wrapper {
+    display: flex;
+}
+
+.app-title {
   display: flex;
   text-align: left;
   font-size: 34px;
   font-weight: bold;
+}
+.data-body {
+  flex-basis: 70%;
+}
+.data-chart {
+  max-height: 500px;
 }
 .app-qual-data {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
 }
-.data-wrapper {
+.data-side-nav {
   display: flex;
+  flex-basis: 30%;
   flex-direction: column;
+}
+.data-chart {
+  height: 300px;
 }
 </style>

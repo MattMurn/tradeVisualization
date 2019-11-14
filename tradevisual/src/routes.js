@@ -14,8 +14,13 @@ const getCompanyInfo = async ticker => {
   let response = await axios(`/product-source/company/${ticker}`);
   return response;
 }
+const getChartData = async ticker => {
+  let response = await axios(`/product-source/chart/1m/${ticker}`)
+  return response;
+}
 export {
   getIndexLeaders,
   getSnapshotData,
-  getCompanyInfo
+  getCompanyInfo,
+  getChartData
 }
