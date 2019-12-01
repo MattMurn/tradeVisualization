@@ -28,7 +28,7 @@
       </div>
       <div class="snapshot-content-wrapper">
         <span class="snapshot-content-category">Change(%) :</span>
-        {{(info.changePercent)*100}}%
+        {{((info.changePercent)*100).toFixed(2)}}%
       </div>
       <div class="snapshot-content-wrapper">
         <span class="snapshot-content-category">Volume :</span>
@@ -39,23 +39,23 @@
         {{info.avgTotalVolume}}
       </div>
       <div class="snapshot-content-wrapper">
-        <span class="snapshot-content-category">52-week High :</span>
+        <span class="snapshot-content-category">52-Week High :</span>
         ${{info.week52High}}
       </div>
       <div class="snapshot-content-wrapper">
-        <span class="snapshot-content-category">52-week Low :</span>
+        <span class="snapshot-content-category">52-Week Low :</span>
         ${{info.week52Low}}
       </div>
       <div class="snapshot-content-wrapper snapshot-on-the-fly">
-        <span class="snapshot-content-category">52-week mid :</span>
+        <span class="snapshot-content-category">52-Week mid :</span>
         ${{this.midPoint}}
       </div>
       <div class="snapshot-content-wrapper snapshot-on-the-fly">
-        <span class="snapshot-content-category">% off High :</span>
+        <span class="snapshot-content-category">% Off High :</span>
         {{this.fromHigh}}
       </div>
       <div class="snapshot-content-wrapper snapshot-on-the-fly">
-        <span class="snapshot-content-category">% off Low :</span>
+        <span class="snapshot-content-category">% Off Low :</span>
         {{this.fromLow}}
       </div>
     </div>
@@ -125,6 +125,7 @@ h1 {
   cursor: pointer;
 }
 .snapshot-info {
+  min-height: 420px;
   flex-basis: 50%;
 }
 .snapshot-content {

@@ -1,11 +1,13 @@
 <template>
-  <div class="most-active">
-
+<div class="most-active-wrapper">
+    <h1 v-on:click="activeClick()">{{title}}</h1>
+  <div v-if="showInfo"  class="most-active">
     <div v-on:click="sendActive(format)" class="most-active-container" v-bind:key="format.symbol" v-for="format in info">
       <span>{{format.symbol}}</span>
       <span>{{format.latestPrice}}</span>
       <span>{{(format.changePercent *100).toFixed(2)}}%</span>
     </div>
+  </div>
   </div>
 </template>
 
@@ -13,16 +15,28 @@
 export default {
   name: "Active",
   data: () => {
-    return {};
+    return {
+      showInfo: false
+    };
   },
   props: {
-    info: Array
+    info: Array,
+    title: String
   },
   methods: {
     sendActive: function(symbol) {
       this.$emit("handleActiveSubmit", symbol);
+    },
+    activeClick: function() {
+      this.showInfo = !this.showInfo;
     }
   },
+  mounted() {
+    //lazy way of checking if response
+    // if(this.info) this.showInfo = true;
+    console.log(this.info);
+    console.log(this.title);
+  }
 };
 </script>
 
@@ -42,15 +56,22 @@ li {
 a {
   color: #42b983;
 }
+.most-active-wrapper {
+  max-width: 400px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  cursor: pointer;
+}
 .most-active {
-  height: 300px;
-  flex-basis: 30%;
-    display: grid;
+  max-width: 400px;
+  display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-gap: 4px;
   border: #42b983 solid 2px;
 }
 .most-active-container {
+  max-width: 180px;
   cursor: pointer;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
