@@ -2,10 +2,10 @@
 <div class="most-active-wrapper">
     <h1 v-on:click="activeClick()">{{title}}</h1>
   <div v-if="showInfo"  class="most-active">
-    <div v-on:click="sendActive(format)" class="most-active-container" v-bind:key="format.symbol" v-for="format in info">
-      <span>{{format.symbol}}</span>
-      <span>{{format.latestPrice}}</span>
-      <span>{{(format.changePercent *100).toFixed(2)}}%</span>
+    <div v-on:click="sendActive(info)" class="most-active-container" v-bind:key="info.symbol" v-for="info in info">
+      <span>{{info.symbol}}</span>
+      <span>{{info.latestPrice}}</span>
+      <span>{{(info.changePercent *100).toFixed(2)}}%</span>
     </div>
   </div>
   </div>

@@ -3,7 +3,7 @@
     <div class="header-container">
     <h1 class="app-title">IEX Equity Monitor</h1>
     <SearchBar v-on:handleTickerSubmit="handleSubmit"/>
-    <h1 class="cur-company">{{this.curCompany }}</h1>
+    <h1 class="cur-company">{{this.curCompany}}</h1>
     </div>
     <div class="flex-data-wrapper">
     <div class="data-side-nav">
@@ -54,7 +54,6 @@ export default {
       companyData: [],
       snapshotData: [],
       chartData: [],
-
     };
   },
   methods: {
@@ -70,7 +69,6 @@ export default {
       })
       getSnapshotData(ticker).then(data => {
         this.snapshotData = data.data;
-        // console.log(data);
       });
     },
     handleActiveSubmit: function(activeData) {
@@ -78,6 +76,9 @@ export default {
         this.companyData = data.data;
         this.curCompany = data.data.companyName;
       });
+      getChartData(activeData.symbol).then(data => {
+        this.chartData = data.data;
+      })
       this.snapshotData = activeData;
     }
   },
@@ -92,7 +93,7 @@ export default {
     getIndexLeaders("losers").then(data => {
       this.losersData = data.data;
     });
-  }
+  },
 };
 </script>
 

@@ -1,14 +1,13 @@
 <template>
   <div class="chart">
-    <h1 v-on:click="chartClick()">Chart Info</h1>
-    <svg :height="this.height" :width="this.width"/>
-    <div v-if="chartShow" class="company-content">
-    </div>
+    <h1>Chart Info</h1>
+    <!-- <div v-if="chartShow" class="company-content">
+    </div>-->
   </div>
 </template>
 
 <script>
-import * as d3 from 'd3';
+import * as d3 from "d3";
 export default {
   name: "D3Chart",
   props: {
@@ -18,26 +17,41 @@ export default {
     return {
       datacollection: null,
       chartInfo: null,
-      chartShow: false,
-      height:600,
-      width: 600,
+      chartShow: true
     };
   },
   methods: {
     chartClick: function() {
-      console.log("chart clicked");
       this.chartShow = !this.chartShow;
-    },
+    }
   },
   mounted() {
-    // Overwriting base render method with actual data.
-    console.log('hello from the d3 Chart')
-    console.log(this.info);
+    let svgHeight = 200;
+    let svgWidth = 300;
+    let yScale = d3.scaleLinear().domain([0, svgHeight]).range([0,10]);
+    d3.select(".chart")
+      .append("svg")
+      .style("height", `${svgHeight}px`)
+      .style("width", `${svgWidth}px`)
+      .style('fill', 'pink')
+
+    d3.select("svg")
+      .selectAll("rect")
+      .data(this.info)
+      .enter()
+      .append("rect")
+      .attr("width", 10)
+      .attr("height", d => yScale(Math.abs(d.change) * 1000))
+      .attr("fill", "black")
+      .style("stroke", "#9A8B7A")
+      .style("stroke-width", "2px")
+      .style('opacity', .25)
+      .attr('x', (d,i)=> i * 10)
+      .attr('y', d => 400 - yScale(Math.abs(d.change)* 1000))
   },
-  created() {
-    this.colorScale = d3
-    .scaleOrdinal()
-    .range(["#f649000","#F800000", "#000000"])
+  updated() {
+    console.log('updated hit');
+    // Overwriting base render method with actual data
   }
 };
 </script>
@@ -65,5 +79,4 @@ a {
   height: 300px;
   /* background: pink; */
 }
-
 </style>

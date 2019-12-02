@@ -74,7 +74,7 @@ export default {
     };
   },
   props: {
-    info: Array
+    info: [Object, Array]
   },
   methods: {
     snapshotClick: function() {
