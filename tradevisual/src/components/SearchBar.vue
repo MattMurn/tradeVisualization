@@ -39,7 +39,7 @@ li {
   margin: 0 10px;
 }
 a {
-  color: #42b983;
+  color: cornflowerblue;
 }
 .search-bar-input {
   height: 25px;
@@ -50,7 +50,7 @@ a {
   height: 30px;
   border-radius: 5px;
   font-size: 16px;
-  background: #42b983;
+  background:cornflowerblue;
   color: white;
 }
 </style>

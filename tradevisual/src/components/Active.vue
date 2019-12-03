@@ -20,7 +20,7 @@ export default {
     };
   },
   props: {
-    info: Object,
+    info: Array,
     title: String
   },
   methods: {
@@ -50,7 +50,7 @@ li {
   margin: 0 10px;
 }
 a {
-  color: #42b983;
+  color: cornflowerblue;
 }
 .most-active-wrapper {
   max-width: 400px;
@@ -64,7 +64,7 @@ a {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-gap: 4px;
-  border: #42b983 solid 2px;
+  border: cornflowerblue solid 2px;
 }
 .most-active-container {
   max-width: 180px;
@@ -74,7 +74,7 @@ a {
 
 }
 .most-active-container:active {
-  color: #42b983;
+  color: cornflowerblue;
 }
 .most-active-container span:nth-child(1) {
   grid-row: 1/3;

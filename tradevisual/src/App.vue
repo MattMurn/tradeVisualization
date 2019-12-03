@@ -14,8 +14,8 @@
       <Active :title="Percent" v-on:handleActiveSubmit="handleActiveSubmit" :info="this.iexPercentData" /> -->
     </div>
     <div class="data-body">
-    <div class="data-chart">
-      <Chart :info="this.chartData"/>
+    <div v-if="this.chartData" class="data-chart">
+      <D3Chart :info="this.chartData"/>
     </div>
     <div class="app-qual-data">
       <CompanyInfo :info="this.companyData" />
@@ -28,8 +28,8 @@
 
 <script>
 import Active from "./components/Active.vue";
-import Chart from "./components/Chart.vue";
 import CompanyInfo from "./components/CompanyInfo.vue";
+import D3Chart from "./components/d3Js/Chart.d3";
 import SearchBar from "./components/SearchBar.vue";
 import Snapshot from "./components/Snapshot.vue";
 import { getChartData, getSnapshotData, getCompanyInfo, getIndexLeaders } from "./routes.js";
@@ -37,8 +37,8 @@ export default {
   name: "app",
   components: {
     Active,
-    Chart,
     CompanyInfo,
+    D3Chart,
     SearchBar,
     Snapshot
   },
@@ -46,14 +46,15 @@ export default {
     return {
       ticker: "",
       curCompany: "",
-      mostActiveData: {},
-      gainersData: {},
-      losersData: {},
-      iexVolumeData: {},
-      iexPercentData: {},
-      companyData: {},
-      snapshotData: {},
-      chartData: {}
+      mostActiveData: [],
+      gainersData: [],
+      losersData: [],
+      iexVolumeData: [],
+      iexPercentData: [],
+      companyData: [],
+      snapshotData: [],
+      chartData: [],
+
     };
   },
   methods: {

@@ -34,7 +34,7 @@ export default {
     };
   },
   props: {
-    info: Object
+    info: Array,
   },
   methods: {
     companyClick: function() {
@@ -61,7 +61,7 @@ li {
   margin: 0 10px;
 }
 a {
-  color: #42b983;
+  color: cornflowerblue;
 }
 h1 {
   cursor: pointer;
