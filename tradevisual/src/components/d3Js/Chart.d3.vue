@@ -2,7 +2,9 @@
   <div class="chart">
     <h1>Chart Info</h1>
     <!-- <div v-if="chartShow" class="company-content">
+
     </div>-->
+
   </div>
 </template>
 
@@ -20,20 +22,27 @@ export default {
       chartShow: true
     };
   },
-  methods: {
-    chartClick: function() {
-      this.chartShow = !this.chartShow;
+  watch: {
+    immediate: true,
+    info: function(){
+      return this.initChart();
     }
   },
-  mounted() {
-    let svgHeight = 200;
-    let svgWidth = 300;
+  methods: {
+    initChart: function() {
+              console.log('chart init', this.info)
+    let svgHeight = 300;
+    let svgWidth = 800;
     let yScale = d3.scaleLinear().domain([0, svgHeight]).range([0,10]);
+    d3.select('svg')
+      .remove();
+
     d3.select(".chart")
       .append("svg")
       .style("height", `${svgHeight}px`)
       .style("width", `${svgWidth}px`)
       .style('fill', 'pink')
+      .style('background', 'cornflowerblue')
 
     d3.select("svg")
       .selectAll("rect")
@@ -48,11 +57,8 @@ export default {
       .style('opacity', .25)
       .attr('x', (d,i)=> i * 10)
       .attr('y', d => 400 - yScale(Math.abs(d.change)* 1000))
+    }
   },
-  updated() {
-    console.log('updated hit');
-    // Overwriting base render method with actual data
-  }
 };
 </script>
 
@@ -76,7 +82,8 @@ a {
   color: cornflowerblue;
 }
 .chart {
-  height: 300px;
-  /* background: pink; */
+  height: 400px;
+  border: 1px solid cornflowerblue;
+  background: pink;
 }
 </style>

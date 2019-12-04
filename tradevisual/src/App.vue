@@ -14,9 +14,7 @@
       <Active :title="Percent" v-on:handleActiveSubmit="handleActiveSubmit" :info="this.iexPercentData" /> -->
     </div>
     <div class="data-body">
-    <div v-if="this.chartData" class="data-chart">
       <D3Chart :info="this.chartData"/>
-    </div>
     <div class="app-qual-data">
       <CompanyInfo :info="this.companyData" />
       <Snapshot :info="this.snapshotData" />
@@ -122,10 +120,9 @@ export default {
 }
 .data-body {
   flex-basis: 70%;
+  flex-direction: column;
 }
-.data-chart {
-  max-height: 500px;
-}
+
 .app-qual-data {
   display: flex;
   flex-direction: row;
@@ -136,7 +133,5 @@ export default {
   flex-basis: 30%;
   flex-direction: column;
 }
-.data-chart {
-  height: 300px;
-}
+
 </style>
