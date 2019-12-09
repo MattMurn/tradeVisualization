@@ -5,16 +5,16 @@
     <SearchBar v-on:handleTickerSubmit="handleSubmit"/>
     <h1 class="cur-company">{{this.curCompany}}</h1>
     </div>
-    <div class="flex-data-wrapper">
-    <div class="data-side-nav">
-      <Active title="Active" v-on:handleActiveSubmit="handleActiveSubmit" :info="this.mostActiveData" />
-      <Active title="Winners" v-on:handleActiveSubmit="handleActiveSubmit" :info="this.gainersData" />
-      <Active title="Losers" v-on:handleActiveSubmit="handleActiveSubmit" :info="this.losersData" />
-      <!-- <Active :title="Volume" v-on:handleActiveSubmit="handleActiveSubmit" :info="this.iexVolumeData" />
-      <Active :title="Percent" v-on:handleActiveSubmit="handleActiveSubmit" :info="this.iexPercentData" /> -->
+    <div class="data-chart">
+      <!-- <D3Chart :info="this.chartData"/> -->
     </div>
+    <div class="flex-data-wrapper">
+    <!-- <div class="data-side-nav"> -->
+      <Leaders title="Active" v-on:handleActiveSubmit="handleActiveSubmit" :info="this.mostActiveData" />
+      <Leaders title="Winners" v-on:handleActiveSubmit="handleActiveSubmit" :info="this.gainersData" />
+      <Leaders title="Losers" v-on:handleActiveSubmit="handleActiveSubmit" :info="this.losersData" />
+    <!-- </div> -->
     <div class="data-body">
-      <D3Chart :info="this.chartData"/>
     <div class="app-qual-data">
       <CompanyInfo :info="this.companyData" />
       <Snapshot :info="this.snapshotData" />
@@ -25,20 +25,20 @@
 </template>
 
 <script>
-import Active from "./components/Active.vue";
-import CompanyInfo from "./components/CompanyInfo.vue";
-import D3Chart from "./components/d3Js/Chart.d3";
+import Leaders from "./components/Leaders.vue";
+// import CompanyInfo from "./components/CompanyInfo.vue";
+// import D3Chart from "./components/d3Js/Chart.d3";
 import SearchBar from "./components/SearchBar.vue";
-import Snapshot from "./components/Snapshot.vue";
+// import Snapshot from "./components/Snapshot.vue";
 import { getChartData, getSnapshotData, getCompanyInfo, getIndexLeaders } from "./routes.js";
 export default {
   name: "app",
   components: {
-    Active,
-    CompanyInfo,
-    D3Chart,
+    Leaders,
+    // CompanyInfo,
+    // D3Chart,
     SearchBar,
-    Snapshot
+    // Snapshot
   },
   data: () => {
     return {
@@ -58,6 +58,7 @@ export default {
     handleSubmit: function(ticker) {
       // this.submitResponse = response;
       getCompanyInfo(ticker).then(data => {
+        if(!data) return;
         this.companyData = data.data;
         this.curCompany = data.data.companyName;
 
@@ -83,13 +84,16 @@ export default {
   mounted() {
     // create a local storage function to check the time on these.
     getIndexLeaders("mostActive").then(data => {
-      this.mostActiveData = data.data;
+        if(!data) return;
+        this.mostActiveData = data.data;
     });
     getIndexLeaders("gainers").then(data => {
-      this.gainersData = data.data;
+        if(!data) return;
+        this.gainersData = data.data;
     });
     getIndexLeaders("losers").then(data => {
-      this.losersData = data.data;
+        if(!data) return;
+        this.losersData = data.data;
     });
   },
 };
@@ -110,6 +114,9 @@ export default {
 }
 .flex-data-wrapper {
     display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .app-title {
