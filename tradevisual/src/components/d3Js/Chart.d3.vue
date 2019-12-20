@@ -78,7 +78,7 @@ export default {
         .style("height", `100%`)
         .style("width", `100%`)
         .style("fill", color)
-        .style("background", "cornflowerblue");
+        .style("background", "#fff");
       let xRange = d3.extent(this.info.map(d => Math.abs(d.change) * 100));
       let yRange = d3.extent(this.info.map(d => Math.abs(d.volume) / 100));
       let xScale = d3

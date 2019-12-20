@@ -10,9 +10,9 @@
     </div>
     <div class="flex-data-wrapper">
     <!-- <div class="data-side-nav"> -->
-      <Leaders title="Active" v-on:handleActiveSubmit="handleActiveSubmit" :info="this.mostActiveData" />
-      <Leaders title="Winners" v-on:handleActiveSubmit="handleActiveSubmit" :info="this.gainersData" />
-      <Leaders title="Losers" v-on:handleActiveSubmit="handleActiveSubmit" :info="this.losersData" />
+      <Leaders id="active" title="Active" v-on:handleActiveSubmit="handleActiveSubmit" :info="this.mostActiveData" />
+      <Leaders id="winners" title="Winners" v-on:handleActiveSubmit="handleActiveSubmit" :info="this.gainersData" />
+      <Leaders id="losers" title="Losers" v-on:handleActiveSubmit="handleActiveSubmit" :info="this.losersData" />
     <!-- </div> -->
     <div class="data-body">
     <div class="app-qual-data">
