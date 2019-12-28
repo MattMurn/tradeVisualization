@@ -49,35 +49,5 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: cornflowerblue;
-}
-h1 {
-  cursor: pointer;
-}
-.company-info {
-  flex-basis: 50%;
-  padding: 0 10px;
-}
-.company-content {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  text-align: left;
-}
-.company-content-category {
-  font-size: 20px;
-  font-weight: 600;
-}
+@import './CompanyInfo.scss';
 </style>

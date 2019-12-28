@@ -1,6 +1,6 @@
 <template>
   <div class="index-leaders-wrapper">
-    <h1 v-on:click="renderChart()">{{title}}</h1>
+    <h1 v-on:click="leaderClick()">{{title}}</h1>
     <div v-if="showInfo" class="index-leaders">
       <div
         v-on:click="sendActive(info)"
@@ -50,7 +50,7 @@ export default {
       let color = "#fff";
       let margin = { top: 10, right: 10, bottom: 10, left: 10 };
       // let volumeTicks = [1000, 750, 500, 250, 0];
-      d3.select("svg").remove();
+      this.destroyChart();
       // create svg
 
       let targetSvg = d3
@@ -98,7 +98,7 @@ export default {
       g.selectAll('.data-pt')
       .append('text')
       .text(d => d.symbol)
-      .attr('y', 20)
+      .attr('y', 200)
 
       g.append("g")
         .attr("class", "x axis")
@@ -118,6 +118,10 @@ export default {
       if(this.showChart){
         this.renderChart();
       }
+      else {
+        this.destroyChart();
+        this.showInfo = true;
+      }
     }
   }
 };
@@ -125,44 +129,5 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: cornflowerblue;
-}
-.index-leaders-wrapper {
-  margin: 0 20px;
-  flex-basis: 30%;
-  cursor: pointer;
-}
-.index-leaders {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-gap: 4px;
-  border: cornflowerblue solid 2px;
-}
-.index-leaders-container {
-  cursor: pointer;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-}
-.index-leaders-container:active {
-  color: cornflowerblue;
-}
-.index-leaders-container span:nth-child(1) {
-  grid-row: 1/3;
-  font-size: 20px;
-}
-.index-leaders-chart {
-  height: 260px;
-}
+@import './Leaders.scss';
 </style>

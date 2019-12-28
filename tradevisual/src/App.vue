@@ -2,17 +2,19 @@
   <div id="app">
     <div class="header-container">
     <h1 class="app-title">IEX Equity Monitor</h1>
-    <SearchBar v-on:handleTickerSubmit="handleSubmit"/>
+    <Tooltip :content="this.tooltipText.default.active" top="0" left="200px"/>
+    <SearchBar @handleTickerSubmit="handleSubmit"/>
     <h1 class="cur-company">{{this.curCompany}}</h1>
     </div>
     <div class="data-chart">
       <!-- <D3Chart :info="this.chartData"/> -->
+      <BoxPlot :info="this.chartData" :height="300"/>
     </div>
     <div class="flex-data-wrapper">
     <!-- <div class="data-side-nav"> -->
-      <Leaders id="active" title="Active" v-on:handleActiveSubmit="handleActiveSubmit" :info="this.mostActiveData" />
-      <Leaders id="winners" title="Winners" v-on:handleActiveSubmit="handleActiveSubmit" :info="this.gainersData" />
-      <Leaders id="losers" title="Losers" v-on:handleActiveSubmit="handleActiveSubmit" :info="this.losersData" />
+      <Leaders id="active" title="Active" @handleActiveSubmit="handleActiveSubmit" :info="this.mostActiveData" />
+      <Leaders id="winners" title="Winners" @handleActiveSubmit="handleActiveSubmit" :info="this.gainersData" />
+      <Leaders id="losers" title="Losers" @handleActiveSubmit="handleActiveSubmit" :info="this.losersData" />
     <!-- </div> -->
     <div class="data-body">
     <div class="app-qual-data">
@@ -25,20 +27,26 @@
 </template>
 
 <script>
-import Leaders from "./components/Leaders.vue";
-// import CompanyInfo from "./components/CompanyInfo.vue";
-// import D3Chart from "./components/d3Js/Chart.d3";
-import SearchBar from "./components/SearchBar.vue";
-// import Snapshot from "./components/Snapshot.vue";
+import Leaders from "./components/Leaders/Leaders.vue";
+import Tooltip from "./components/Tooltip/Tooltip.vue";
+import CompanyInfo from "./components/CompanyInfo/CompanyInfo.vue";
+// import D3Chart from "./components/Chart/Chart.d3";
+import BoxPlot from "./components/Charts/BoxPlot.vue";
+
+import SearchBar from "./components/SearchBar/SearchBar.vue";
+import Snapshot from "./components/Snapshot/Snapshot.vue";
 import { getChartData, getSnapshotData, getCompanyInfo, getIndexLeaders } from "./routes.js";
+import * as tooltipText from '../tooltipText.json';
 export default {
   name: "app",
   components: {
     Leaders,
-    // CompanyInfo,
+    BoxPlot,
+    Tooltip,
+    CompanyInfo,
     // D3Chart,
     SearchBar,
-    // Snapshot
+    Snapshot
   },
   data: () => {
     return {
@@ -52,6 +60,7 @@ export default {
       companyData: [],
       snapshotData: [],
       chartData: [],
+      tooltipText: tooltipText
     };
   },
   methods: {
@@ -107,6 +116,9 @@ export default {
   text-align: center;
   color: #2c3e50;
 
+}
+.header-container {
+  position: relative;
 }
 .cur-company {
   height: 60px;

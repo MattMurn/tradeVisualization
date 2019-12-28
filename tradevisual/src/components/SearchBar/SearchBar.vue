@@ -19,38 +19,10 @@ export default {
       this.$emit("handleTickerSubmit", ticker);
     }
   },
-  mounted() {
-    console.log("searchBar mounted");
-  }
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: cornflowerblue;
-}
-.search-bar-input {
-  height: 25px;
-  border-radius: 5px;
-  margin-right: 15px;
-}
-.search-bar-submit {
-  height: 30px;
-  border-radius: 5px;
-  font-size: 16px;
-  background:cornflowerblue;
-  color: white;
-}
+@import './SearchBar.scss';
 </style>
