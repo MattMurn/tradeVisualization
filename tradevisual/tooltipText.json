@@ -1,6 +1,5 @@
 {
-  "Active": "10 most active intraday (price, % change)",
-  "Winners": "10 best intraday performers (price, % change)",
-  "Losers": "10 worst intraday performers (price, % change)",
-
+  "Active": "10 most active intraday (volume(millions),change)",
+  "Winners": "10 best intraday performers (price,change)",
+  "Losers": "10 worst intraday performers (price,change)"
 }

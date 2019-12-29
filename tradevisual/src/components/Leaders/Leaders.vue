@@ -12,7 +12,8 @@
         v-for="info in info"
       >
         <span>{{info.symbol}}</span>
-        <span>{{info.latestPrice}}</span>
+        <span v-if="title === 'Active'">{{(info.volume/1000000).toFixed(2)}}</span>
+        <span v-else>${{info.latestPrice}}</span>
         <span>{{(info.changePercent *100).toFixed(2)}}%</span>
       </div>
     </div>

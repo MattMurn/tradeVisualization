@@ -40,9 +40,6 @@ export default {
     companyClick: function() {
       this.companySearch = !this.companySearch;
   }
-  },
-  mounted() {
-    console.log("companyInfo mounted");
   }
 };
 </script>
