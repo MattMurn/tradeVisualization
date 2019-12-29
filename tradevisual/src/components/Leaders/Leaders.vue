@@ -1,9 +1,12 @@
 <template>
   <div class="index-leaders-wrapper">
-    <h1 v-on:click="leaderClick()">{{title}}</h1>
+    <div class="index-leaders-header">
+    <h1 @click="leaderClick()">{{title}}</h1>
+    <Tooltip content="testing" :id="title" top="0" left="250px"/>
+    </div>
     <div v-if="showInfo" class="index-leaders">
       <div
-        v-on:click="sendActive(info)"
+        @click="sendActive(info)"
         class="index-leaders-container"
         v-bind:key="info.symbol"
         v-for="info in info"
@@ -19,8 +22,12 @@
 
 <script>
 import * as d3 from "d3";
+import Tooltip from "../Tooltip/Tooltip.vue";
 export default {
   name: "Leaders",
+  components: {
+    Tooltip
+  },
   data: () => {
     return {
       showInfo: true,

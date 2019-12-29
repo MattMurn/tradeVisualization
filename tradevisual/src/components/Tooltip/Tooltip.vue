@@ -9,7 +9,7 @@ note about positioning:
 */
 <template>
   <div class="tooltip-wrapper" :style="style">
-    <div class="tooltip-icon-wrapper" @mouseenter="tooltipHover" @mouseleave="tooltipHover"></div>
+    <div class="tooltip-icon-wrapper" :id="id" @mouseenter="tooltipHover" @mouseleave="tooltipHover"></div>
     <div v-if="showTooltip" class="tooltip">{{content}}</div>
   </div>
 </template>
@@ -25,6 +25,7 @@ export default {
   props: {
     content: String,
     position: String,
+    id: String,
     top: {
       type: String,
       default: "initial"
@@ -54,10 +55,11 @@ export default {
   },
   mounted: function() {
     // create svg
-    console.log(this.content);
-    d3.select(".tooltip-icon-wrapper")
+    console.log(this.content, this.id);
+    d3.select(`#${this.id}`)
       .append("svg")
       .attr("class", "tooltip-svg")
+      .attr("id", `${this.id}-svg`)
       .style("height", "20px")
       .style("width", "20px");
     // add group element
