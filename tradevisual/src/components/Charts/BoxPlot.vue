@@ -61,7 +61,7 @@ export default {
         .range([480, 20]);
       let xAxis = d3
         .axisBottom()
-        .scale(xScale)
+        .scale(xSc)
         .tickSize(480)
         .tickValues([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
 
@@ -71,7 +71,7 @@ export default {
         .call(xAxis);
       let yAxis = d3
         .axisRight()
-        .scale(yScale)
+        .scale(ySc)
         .ticks(10)
         .tickSize(480);
       d3.select("svg")
@@ -89,34 +89,19 @@ export default {
         .attr("cx", d => xScale(d.day))
         .attr("cy", d => yScale(d.tweets))
         .style("fill", blue);
-
+      // check to see what type the data.high is in this instance.
+      let lineTemp = this.info.map(data => data.High);
       var tweetLine = d3
         .line()
-        .x(d => xScale(d.day))
-        .y(d => yScale(d.tweets));
+        .x((d, i) => xScale(i * 50))
+        .y(d => yScale(d));
       d3.select("svg")
         .append("path")
-        .attr("d", tweetLine(this.info))
+        .attr("d", tweetLine(lineTemp))
         .attr("fill", "none")
         .attr("stroke", "#fe9a22")
         .attr("stroke-width", 2);
-
-      // d3.select("svg")
-      // .data(this.info).enter()
-      // .append("text")
-      // .text(d => d.date)
-      // .attr("dx", (d, i) => i * 51)
-      // .attr("dy", (ySpan - 100));
-
-      // d3.select("svg")
-      //   .selectAll("g.box")
-      //   .data(this.info)
-      //   .enter()
-      //   .attr("class", "box")
-      //   .attr(
-      //     "transform",
-      //     function(d, i) {"translate(" + xSc(i * 50) + "," + ySc(d.high) + ")"}
-      //   )
+      // there is something wrong with the way vue is handling "this context"
       //   .each(function(d) {
       //     d3.select(this)
       //       .append("rect")
