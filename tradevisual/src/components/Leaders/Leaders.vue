@@ -2,7 +2,7 @@
   <div class="index-leaders-wrapper">
     <div class="index-leaders-header">
     <h1 @click="leaderClick()">{{title}}</h1>
-    <Tooltip content="testing" :id="title" top="0" left="250px"/>
+    <Tooltip :id="title" top="0" right="10px"/>
     </div>
     <div v-if="showInfo" class="index-leaders">
       <div

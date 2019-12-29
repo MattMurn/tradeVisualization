@@ -2,7 +2,6 @@
   <div id="app">
     <div class="header-container">
     <h1 class="app-title">IEX Equity Monitor</h1>
-    <Tooltip :content="this.tooltipText.default.active" top="0" left="200px"/>
     <SearchBar @handleTickerSubmit="handleSubmit"/>
     <h1 class="cur-company">{{this.curCompany}}</h1>
     </div>
@@ -28,7 +27,6 @@
 
 <script>
 import Leaders from "./components/Leaders/Leaders.vue";
-import Tooltip from "./components/Tooltip/Tooltip.vue";
 import CompanyInfo from "./components/CompanyInfo/CompanyInfo.vue";
 // import D3Chart from "./components/Chart/Chart.d3";
 import BoxPlot from "./components/Charts/BoxPlot.vue";
@@ -36,13 +34,11 @@ import BoxPlot from "./components/Charts/BoxPlot.vue";
 import SearchBar from "./components/SearchBar/SearchBar.vue";
 import Snapshot from "./components/Snapshot/Snapshot.vue";
 import { getChartData, getSnapshotData, getCompanyInfo, getIndexLeaders } from "./routes.js";
-import * as tooltipText from '../tooltipText.json';
 export default {
   name: "app",
   components: {
     Leaders,
     BoxPlot,
-    Tooltip,
     CompanyInfo,
     // D3Chart,
     SearchBar,
@@ -60,7 +56,6 @@ export default {
       companyData: [],
       snapshotData: [],
       chartData: [],
-      tooltipText: tooltipText
     };
   },
   methods: {
