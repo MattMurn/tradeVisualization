@@ -7,7 +7,7 @@
     </div>
     <div class="data-chart">
       <!-- <D3Chart :info="this.chartData"/> -->
-      <BoxPlot :info="this.chartData" :height="300"/>
+      <LineChart :info="this.chartData" :height="300" :width="600"/>
     </div>
     <div class="flex-data-wrapper">
     <!-- <div class="data-side-nav"> -->
@@ -29,7 +29,7 @@
 import Leaders from "./components/Leaders/Leaders.vue";
 import CompanyInfo from "./components/CompanyInfo/CompanyInfo.vue";
 // import D3Chart from "./components/Chart/Chart.d3";
-import BoxPlot from "./components/Charts/BoxPlot.vue";
+import LineChart from "./components/Charts/LineChart.vue";
 
 import SearchBar from "./components/SearchBar/SearchBar.vue";
 import Snapshot from "./components/Snapshot/Snapshot.vue";
@@ -38,7 +38,7 @@ export default {
   name: "app",
   components: {
     Leaders,
-    BoxPlot,
+    LineChart,
     CompanyInfo,
     // D3Chart,
     SearchBar,
