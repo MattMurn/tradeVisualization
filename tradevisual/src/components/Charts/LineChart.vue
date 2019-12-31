@@ -28,7 +28,7 @@ export default {
 
       const xSc = d3
         .scaleBand()
-        .domain(this.info.map(point => point.date))
+        .domain(this.info.map(point => point.date.split("-").splice(1).join("-")))
         .range([0, this.width - chartPadding]);
 
       const ySc = d3
@@ -76,7 +76,8 @@ export default {
       var tweetLine = d3
         .line()
         .x(d => xSc(d.date))
-        .y(d => ySc(d.close) + 10);
+        .y(d => ySc(d.close) + 10)
+
       d3.select("svg")
         .append("path")
         .attr("d", tweetLine(this.info))

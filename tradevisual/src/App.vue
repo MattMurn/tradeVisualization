@@ -26,6 +26,11 @@
 </template>
 
 <script>
+/*
+active/winners/losers on side nav,
+and chart and snapshot/company info main
+remove grid/change to 1 column with all 10.
+*/
 import Leaders from "./components/Leaders/Leaders.vue";
 import CompanyInfo from "./components/CompanyInfo/CompanyInfo.vue";
 // import D3Chart from "./components/Chart/Chart.d3";

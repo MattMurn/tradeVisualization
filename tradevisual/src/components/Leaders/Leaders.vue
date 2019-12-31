@@ -17,7 +17,7 @@
         <span>{{(info.changePercent *100).toFixed(2)}}%</span>
       </div>
     </div>
-    <div class="index-leaders-chart" :id='`${id}`'></div>
+    <div v-else class="index-leaders-chart" :id='`${id}`'></div>
   </div>
 </template>
 
@@ -46,7 +46,7 @@ export default {
       this.$emit("handleActiveSubmit", symbol);
     },
     destroyChart: function() {
-      d3.select("svg").remove();
+      d3.select(`#${this.id}-svg`).remove();
     },
     renderChart: function() {
       /*
@@ -64,6 +64,7 @@ export default {
       let targetSvg = d3
         .select(`#${this.id}`)
         .append("svg")
+        .attr("id", `${this.id}-svg`)
         .style("height", `100%`)
         .style("width", `100%`)
         .style("fill", color)
@@ -123,11 +124,11 @@ export default {
     leaderClick: function() {
       this.showInfo = !this.showInfo;
       this.showChart = !this.showChart;
+        this.destroyChart();
       if(this.showChart){
         this.renderChart();
       }
       else {
-        this.destroyChart();
         this.showInfo = true;
       }
     }
