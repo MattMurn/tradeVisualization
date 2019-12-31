@@ -1,6 +1,6 @@
 <template>
-  <div class="boxplot-wrapper" id="boxplot-wrapper-id">
-    <div class="boxplot-svg-wrapper" v-if="this.info"></div>
+  <div class="line-wrapper" id="line-wrapper-id">
+    <div class="line-svg-wrapper" v-if="this.info"></div>
   </div>
 </template>
 <script>
@@ -14,11 +14,12 @@ export default {
   },
   props: {
     info: Array,
-    height: Number
+    height: Number,
+    d3Id: String
   },
   methods: {
     destroyChart: function() {
-      d3.select("svg").remove();
+      d3.select(`#${this.d3Id}-svg`).remove();
     },
     initChart: function() {
       //create range from min/max values of date & highs
@@ -37,32 +38,32 @@ export default {
         .range([this.height - chartPadding, 0]);
 
       // create the svg container
-      d3.select(".boxplot-svg-wrapper")
+      d3.select(".line-svg-wrapper")
         .append("svg")
-        .attr("class", "bloxplot-svg")
+        .attr("id", `${this.d3Id}-svg`)
         .style("height", this.height - 10)
         .style("width", "100%");
       // add group element
-      d3.select("svg").append("g");
+      d3.select(`#${this.d3Id}-svg`).append("g").attr("id", `#${this.d3Id}-g`);
 
       //build x&y axis
       var yAxis = d3.axisRight().scale(ySc);
-      d3.select("svg")
+      d3.select(`#${this.d3Id}-svg`)
         .append("g")
         .attr("id", "yAxisG")
         .style("color", "cornflowerblue")
         .style("font-weight", 600)
         .call(yAxis);
-      var xAxis = d3.axisBottom().scale(xSc);
-      d3.select("svg")
-        .append("g")
-        .attr("id", "xAxisG")
-        .style("color", "cornflowerblue")
-        .style("font-weight", 600)
-        .call(xAxis);
+      // var xAxis = d3.axisBottom().scale(xSc);
+      // d3.select(`#${this.d3Id}-svg`)
+      //   .append("g")
+      //   .attr("id", "xAxisG")
+      //   .style("color", "cornflowerblue")
+      //   .style("font-weight", 600)
+      //   .call(xAxis);
 
       // add plot points to chart.
-      d3.select("g")
+      d3.select(`#${this.d3Id}-g`)
         .selectAll("circle")
         .data(this.info)
         .enter()
@@ -77,7 +78,7 @@ export default {
         .line()
         .x(d => xSc(d.date))
         .y(d => ySc(d.close) + 10);
-      d3.select("svg")
+      d3.select(`#${this.d3Id}-svg`)
         .append("path")
         .attr("d", tweetLine(this.info))
         .attr("fill", "none")
@@ -88,7 +89,7 @@ export default {
   },
   mounted: function() {
     this.width = document.getElementById(
-      "boxplot-wrapper-id"
+      "line-wrapper-id"
     ).parentElement.offsetWidth;
   },
   updated: function() {
@@ -98,7 +99,7 @@ export default {
 };
 </script>
 <style scoped>
-.boxplot-svg-wrapper {
+.line-svg-wrapper {
   /* border: 2px solid cornflowerblue; */
   width: 90%;
   margin: auto;

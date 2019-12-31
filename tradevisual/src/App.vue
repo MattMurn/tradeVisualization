@@ -3,19 +3,19 @@
     <div class="header-container">
     <h1 class="app-title">IEX Equity Monitor</h1>
     <SearchBar @handleTickerSubmit="handleSubmit"/>
+    </div>
     <h1 class="cur-company">{{this.curCompany}}</h1>
-    </div>
-    <div class="data-chart">
-      <!-- <D3Chart :info="this.chartData"/> -->
-      <LineChart :info="this.chartData" :height="300" :width="600"/>
-    </div>
     <div class="flex-data-wrapper">
-    <!-- <div class="data-side-nav"> -->
+    <div class="data-side-nav">
       <Leaders id="active" title="Active" @handleActiveSubmit="handleActiveSubmit" :info="this.mostActiveData" />
       <Leaders id="winners" title="Winners" @handleActiveSubmit="handleActiveSubmit" :info="this.gainersData" />
       <Leaders id="losers" title="Losers" @handleActiveSubmit="handleActiveSubmit" :info="this.losersData" />
-    <!-- </div> -->
+    </div>
     <div class="data-body">
+    <div class="data-chart">
+      <!-- <D3Chart :info="this.chartData"/> -->
+      <LineChart d3Id="lineChart" :info="this.chartData" :height="300" :width="600"/>
+    </div>
     <div class="app-qual-data">
       <CompanyInfo :info="this.companyData" />
       <Snapshot :info="this.snapshotData" />
@@ -33,19 +33,17 @@ remove grid/change to 1 column with all 10.
 */
 import Leaders from "./components/Leaders/Leaders.vue";
 import CompanyInfo from "./components/CompanyInfo/CompanyInfo.vue";
-// import D3Chart from "./components/Chart/Chart.d3";
 import LineChart from "./components/Charts/LineChart.vue";
 
 import SearchBar from "./components/SearchBar/SearchBar.vue";
 import Snapshot from "./components/Snapshot/Snapshot.vue";
-import { getChartData, getSnapshotData, getCompanyInfo, getIndexLeaders } from "./routes.js";
+import { getChartData, getSnapshotData, getCompanyInfo, getIndexLeaders, /*getSectorData*/ } from "./routes.js";
 export default {
   name: "app",
   components: {
     Leaders,
     LineChart,
     CompanyInfo,
-    // D3Chart,
     SearchBar,
     Snapshot
   },
@@ -65,7 +63,6 @@ export default {
   },
   methods: {
     handleSubmit: function(ticker) {
-      // this.submitResponse = response;
       getCompanyInfo(ticker).then(data => {
         if(!data) return;
         this.companyData = data.data;
@@ -104,11 +101,17 @@ export default {
         if(!data) return;
         this.losersData = data.data;
     });
+    // getSectorData().then(data => {
+    //   console.log(data);
+    // })
   },
 };
 </script>
 
 <style>
+body {
+  background: seashell
+}
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -118,7 +121,10 @@ export default {
 
 }
 .header-container {
+  display: flex;
   position: relative;
+  justify-content: space-between;
+  align-items: center;
 }
 .cur-company {
   height: 60px;
@@ -149,7 +155,7 @@ export default {
 }
 .data-side-nav {
   display: flex;
-  flex-basis: 30%;
+  /* flex-basis: 30%; */
   flex-direction: column;
 }
 
