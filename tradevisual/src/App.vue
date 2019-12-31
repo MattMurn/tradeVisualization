@@ -14,7 +14,7 @@
     <div class="data-body">
     <div class="data-chart">
       <!-- <D3Chart :info="this.chartData"/> -->
-      <LineChart id="lineChart" :info="this.chartData" :height="300" :width="600"/>
+      <LineChart d3Id="lineChart" :info="this.chartData" :height="300" :width="600"/>
     </div>
     <div class="app-qual-data">
       <CompanyInfo :info="this.companyData" />
@@ -149,6 +149,7 @@ export default {
 }
 .data-side-nav {
   display: flex;
+  /* flex-basis: 30%; */
   flex-direction: column;
 }
 

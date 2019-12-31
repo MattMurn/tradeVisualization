@@ -15,11 +15,11 @@ export default {
   props: {
     info: Array,
     height: Number,
-    id: String
+    d3Id: String
   },
   methods: {
     destroyChart: function() {
-      d3.select(`#${this.id}`).remove();
+      d3.select(`#${this.d3Id}-svg`).remove();
     },
     initChart: function() {
       //create range from min/max values of date & highs
@@ -29,7 +29,7 @@ export default {
 
       const xSc = d3
         .scaleBand()
-        .domain(this.info.map(point => point.date.split("-").splice(1).join("-")))
+        .domain(this.info.map(point => point.date))
         .range([0, this.width - chartPadding]);
 
       const ySc = d3
@@ -40,22 +40,22 @@ export default {
       // create the svg container
       d3.select(".line-svg-wrapper")
         .append("svg")
-        .attr("id", `${this.id}`)
+        .attr("id", `${this.d3Id}-svg`)
         .style("height", this.height - 10)
         .style("width", "100%");
       // add group element
-      d3.select(`#${this.id}`).append("g").attr("id", `${this.id}`);
+      d3.select(`#${this.d3Id}-svg`).append("g").attr("id", `#${this.d3Id}-g`);
 
       //build x&y axis
       var yAxis = d3.axisRight().scale(ySc);
-      d3.select(`#${this.id}`)
+      d3.select(`#${this.d3Id}-svg`)
         .append("g")
         .attr("id", "yAxisG")
         .style("color", "cornflowerblue")
         .style("font-weight", 600)
         .call(yAxis);
       var xAxis = d3.axisBottom().scale(xSc);
-      d3.select(`#${this.id}`)
+      d3.select(`#${this.d3Id}-svg`)
         .append("g")
         .attr("id", "xAxisG")
         .style("color", "cornflowerblue")
@@ -63,7 +63,7 @@ export default {
         .call(xAxis);
 
       // add plot points to chart.
-      d3.select(`#${this.id}`)
+      d3.select(`#${this.d3Id}-g`)
         .selectAll("circle")
         .data(this.info)
         .enter()
@@ -77,9 +77,8 @@ export default {
       var tweetLine = d3
         .line()
         .x(d => xSc(d.date))
-        .y(d => ySc(d.high) + 10)
-      console.log(this.info);
-      d3.select(`#${this.id}`)
+        .y(d => ySc(d.close) + 10);
+      d3.select(`#${this.d3Id}-svg`)
         .append("path")
         .attr("d", tweetLine(this.info))
         .attr("fill", "none")
@@ -89,7 +88,6 @@ export default {
     }
   },
   mounted: function() {
-    console.log(this.id);
     this.width = document.getElementById(
       "line-wrapper-id"
     ).parentElement.offsetWidth;
