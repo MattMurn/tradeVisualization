@@ -54,13 +54,13 @@ export default {
         .style("color", "cornflowerblue")
         .style("font-weight", 600)
         .call(yAxis);
-      var xAxis = d3.axisBottom().scale(xSc);
-      d3.select(`#${this.d3Id}-svg`)
-        .append("g")
-        .attr("id", "xAxisG")
-        .style("color", "cornflowerblue")
-        .style("font-weight", 600)
-        .call(xAxis);
+      // var xAxis = d3.axisBottom().scale(xSc);
+      // d3.select(`#${this.d3Id}-svg`)
+      //   .append("g")
+      //   .attr("id", "xAxisG")
+      //   .style("color", "cornflowerblue")
+      //   .style("font-weight", 600)
+      //   .call(xAxis);
 
       // add plot points to chart.
       d3.select(`#${this.d3Id}-g`)

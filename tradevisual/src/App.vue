@@ -3,8 +3,8 @@
     <div class="header-container">
     <h1 class="app-title">IEX Equity Monitor</h1>
     <SearchBar @handleTickerSubmit="handleSubmit"/>
-    <h1 class="cur-company">{{this.curCompany}}</h1>
     </div>
+    <h1 class="cur-company">{{this.curCompany}}</h1>
     <div class="flex-data-wrapper">
     <div class="data-side-nav">
       <Leaders id="active" title="Active" @handleActiveSubmit="handleActiveSubmit" :info="this.mostActiveData" />
@@ -109,6 +109,9 @@ export default {
 </script>
 
 <style>
+body {
+  background: seashell
+}
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -118,7 +121,10 @@ export default {
 
 }
 .header-container {
+  display: flex;
   position: relative;
+  justify-content: space-between;
+  align-items: center;
 }
 .cur-company {
   height: 60px;
