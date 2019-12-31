@@ -5,6 +5,12 @@
     <Tooltip :id="title" top="0" right="10px"/>
     </div>
     <div v-if="showInfo" class="index-leaders">
+      <div class="index-leaders-container index-leaders-sub">
+      <span>Symbol</span>
+      <span v-if="title === 'Active'">Volume</span>
+      <span v-else>Price</span>
+      <span>Change(%)</span>
+      </div>
       <div
         @click="sendActive(info)"
         class="index-leaders-container"

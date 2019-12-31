@@ -1,6 +1,6 @@
 <template>
-  <div class="boxplot-wrapper" id="boxplot-wrapper-id">
-    <div class="boxplot-svg-wrapper" v-if="this.info"></div>
+  <div class="line-wrapper" id="line-wrapper-id">
+    <div class="line-svg-wrapper" v-if="this.info"></div>
   </div>
 </template>
 <script>
@@ -14,11 +14,12 @@ export default {
   },
   props: {
     info: Array,
-    height: Number
+    height: Number,
+    id: String
   },
   methods: {
     destroyChart: function() {
-      d3.select("svg").remove();
+      d3.select(`#${this.id}`).remove();
     },
     initChart: function() {
       //create range from min/max values of date & highs
@@ -37,24 +38,24 @@ export default {
         .range([this.height - chartPadding, 0]);
 
       // create the svg container
-      d3.select(".boxplot-svg-wrapper")
+      d3.select(".line-svg-wrapper")
         .append("svg")
-        .attr("class", "bloxplot-svg")
+        .attr("id", `${this.id}`)
         .style("height", this.height - 10)
         .style("width", "100%");
       // add group element
-      d3.select("svg").append("g");
+      d3.select(`#${this.id}`).append("g").attr("id", `${this.id}`);
 
       //build x&y axis
       var yAxis = d3.axisRight().scale(ySc);
-      d3.select("svg")
+      d3.select(`#${this.id}`)
         .append("g")
         .attr("id", "yAxisG")
         .style("color", "cornflowerblue")
         .style("font-weight", 600)
         .call(yAxis);
       var xAxis = d3.axisBottom().scale(xSc);
-      d3.select("svg")
+      d3.select(`#${this.id}`)
         .append("g")
         .attr("id", "xAxisG")
         .style("color", "cornflowerblue")
@@ -62,7 +63,7 @@ export default {
         .call(xAxis);
 
       // add plot points to chart.
-      d3.select("g")
+      d3.select(`#${this.id}`)
         .selectAll("circle")
         .data(this.info)
         .enter()
@@ -76,9 +77,9 @@ export default {
       var tweetLine = d3
         .line()
         .x(d => xSc(d.date))
-        .y(d => ySc(d.close) + 10)
-
-      d3.select("svg")
+        .y(d => ySc(d.high) + 10)
+      console.log(this.info);
+      d3.select(`#${this.id}`)
         .append("path")
         .attr("d", tweetLine(this.info))
         .attr("fill", "none")
@@ -88,8 +89,9 @@ export default {
     }
   },
   mounted: function() {
+    console.log(this.id);
     this.width = document.getElementById(
-      "boxplot-wrapper-id"
+      "line-wrapper-id"
     ).parentElement.offsetWidth;
   },
   updated: function() {
@@ -99,7 +101,7 @@ export default {
 };
 </script>
 <style scoped>
-.boxplot-svg-wrapper {
+.line-svg-wrapper {
   /* border: 2px solid cornflowerblue; */
   width: 90%;
   margin: auto;

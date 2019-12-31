@@ -15,12 +15,17 @@ const getCompanyInfo = async ticker => {
   return response;
 }
 const getChartData = async ticker => {
-  let response = await axios(`/product-source/chart/1m/${ticker}`)
+  let response = await axios(`/product-source/chart/1m/${ticker}`);
+  return response;
+}
+const getSectorData = async () => {
+  let response = await axios('/stock/market/sector-performance');
   return response;
 }
 export {
   getIndexLeaders,
   getSnapshotData,
   getCompanyInfo,
-  getChartData
+  getChartData,
+  getSectorData
 }
