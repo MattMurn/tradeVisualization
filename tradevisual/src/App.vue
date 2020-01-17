@@ -147,16 +147,28 @@ body {
   flex-basis: 70%;
   flex-direction: column;
 }
-
 .app-qual-data {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
 }
+
 .data-side-nav {
   display: flex;
+  min-width: 350px;
   /* flex-basis: 30%; */
   flex-direction: column;
 }
-
+  @media screen and (max-width: 992px) {
+    .data-body {
+      order: 1;
+      flex-basis: 90%;
+    }
+    .data-side-nav {
+      order: 2;
+    }
+    .app-qual-data {
+      flex-wrap: wrap;
+    }
+  }
 </style>

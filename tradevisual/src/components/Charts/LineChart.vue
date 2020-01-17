@@ -21,34 +21,72 @@ export default {
     destroyChart: function() {
       d3.select(`#${this.d3Id}-svg`).remove();
     },
-    initLineChart: function() {
+    initChartContainer: function() {
+      // const MARGIN = { top: 20, right: 10, bottom: 20, left: 10 };
+      // let width = 960 - margin.left - margin.right;
+      // let height = 500 - margin.top - margin.bottom;
+
       //create range from min/max values of date & highs
       // const xSpan = d3.extent(this.info);
-      let chartPadding = 50;
+
+      // create the svg container
+      // d3.select(".line-svg-wrapper")
+      //   .append("svg")
+      //   .attr("id", `${this.d3Id}-svg`)
+      //   .style("height", this.height - 10)
+      //   .style("width", "100%");
+      // add group element
+      // d3.select(`#${this.d3Id}-svg`)
+      //   .append("g")
+      //   .attr("id", `#${this.d3Id}-g`);
+
+      //build x&y axis
+      // var yAxis = d3.axisRight().scale(ySc);
+      // d3.select(`#${this.d3Id}-svg`)
+      //   .append("g")
+      //   .attr("id", "yAxisG")
+      //   .style("color", "cornflowerblue")
+      //   .style("font-weight", 600)
+      //   .call(yAxis);
+
+      // var xAxis = d3.axisBottom().scale(xSc);
+      // d3.select(`#${this.d3Id}-svg`)
+      //   .append("g")
+      //   .attr("id", "xAxisG")
+      //   .style("color", "cornflowerblue")
+      //   .style("font-weight", 600)
+      //   .call(xAxis);
+    },
+    initLineChart: function() {
+      // this.initChartContainer();
+
+      //create range from min/max values of date & highs
+      // const xSpan = d3.extent(this.info);
+      let chartPadding = 20;
       const ySpan = d3.extent(this.info.map(point => point.close));
 
       const xSc = d3
         .scaleBand()
         .domain(this.info.map(point => point.date))
-        .range([0, this.width - chartPadding]);
+        .range([50, this.width - chartPadding]);
 
       const ySc = d3
         .scaleLinear()
         .domain(ySpan)
         .range([this.height - chartPadding, 0]);
 
-      // create the svg container
+      // // create the svg container
       d3.select(".line-svg-wrapper")
         .append("svg")
         .attr("id", `${this.d3Id}-svg`)
         .style("height", this.height - 10)
         .style("width", "100%");
-      // add group element
+      // // add group element
       d3.select(`#${this.d3Id}-svg`)
         .append("g")
         .attr("id", `#${this.d3Id}-g`);
 
-      //build x&y axis
+      // //build x&y axis
       var yAxis = d3.axisRight().scale(ySc);
       d3.select(`#${this.d3Id}-svg`)
         .append("g")
@@ -56,6 +94,7 @@ export default {
         .style("color", "cornflowerblue")
         .style("font-weight", 600)
         .call(yAxis);
+
       // var xAxis = d3.axisBottom().scale(xSc);
       // d3.select(`#${this.d3Id}-svg`)
       //   .append("g")
@@ -88,62 +127,25 @@ export default {
         .attr("stroke-width", 2);
     },
     initHistoChart: function() {
-      let chartPadding = 50;
-      const ySpan = d3.extent(this.info.map(point => point.close));
+      // let histo = d3.histogram();
+      // let histoChart = histo(this.info);
 
-      const xSc = d3
-        .scaleBand()
-        .domain(this.info.map(point => point.date))
-        .range([0, this.width - chartPadding]);
+      // histo
+      //   .domain(xSc.domain)
+      //   .thresholds(d => d.length)
+      //   .value(d => d.high);
 
-      const ySc = d3
-        .scaleLinear()
-        .domain(ySpan)
-        .range([this.height - chartPadding, 0]);
-
-      // create the svg container
-      d3.select(".line-svg-wrapper")
-        .append("svg")
-        .attr("id", `${this.d3Id}-svg`)
-        .style("height", this.height - 10)
-        .style("width", "100%");
-
-      //build x&y axis
-      var yAxis = d3.axisRight().scale(ySc);
-      d3.select(`#${this.d3Id}-svg`)
-        .append("g")
-        .attr("id", "yAxisG")
-        .style("color", "cornflowerblue")
-        .style("font-weight", 600)
-        .call(yAxis);
-
-      // var xAxis = d3.axisBottom().scale(xSc);
-      // d3.select(`#${this.d3Id}-svg`)
-      //   .append("g")
-      //   .attr("id", "xAxisG")
-      //   .style("color", "cornflowerblue")
-      //   .style("font-weight", 600)
-      //   .call(xAxis);
-
-      let histo = d3.histogram();
-      let histoChart = histo(this.info);
-
-      histo
-        .domain(xSc.domain)
-        .thresholds(d => d.length)
-        .value(d => d.high);
-
-      d3.select("svg")
-        .selectAll("rect")
-        .data(histoChart)
-        .enter()
-        .append("rect")
-        .attr("id", "test")
-        .attr("x", d => xSc(d.date)) // buffer for border - TODO fix this.
-        .attr("y", d => ySc(d.close) + 10) // buffer for border
-        .attr("width", d => xSc(d.x1 - d.x0) - 2)
-        .attr("height", d => 400 - ySc(d.length))
-        .style("fill", "#FCD88B");
+      // d3.select("svg")
+      //   .selectAll("rect")
+      //   .data(histoChart)
+      //   .enter()
+      //   .append("rect")
+      //   .attr("id", "test")
+      //   .attr("x", d => xSc(d.date)) // buffer for border - TODO fix this.
+      //   .attr("y", d => ySc(d.close) + 10) // buffer for border
+      //   .attr("width", d => xSc(d.x1 - d.x0) - 2)
+      //   .attr("height", d => 400 - ySc(d.length))
+      //   .style("fill", "#FCD88B");
     }
   },
   mounted: function() {
@@ -153,7 +155,7 @@ export default {
   },
   updated: function() {
     this.destroyChart();
-    this.initHistoChart();
+    this.initLineChart();
   }
 };
 </script>

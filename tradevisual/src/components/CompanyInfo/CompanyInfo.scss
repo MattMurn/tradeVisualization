@@ -29,3 +29,10 @@ h1 {
   font-size: 20px;
   font-weight: 600;
 }
+@media screen and (max-width: 992px) {
+  .company-info {
+    flex-basis: 100%;
+    margin: 0 10px;
+
+  }
+}

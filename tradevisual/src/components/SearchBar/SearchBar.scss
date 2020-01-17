@@ -29,8 +29,16 @@ a {
 }
 .search-bar-submit {
   height: 30px;
+  width: 130px;
   border-radius: 3px;
   font-size: 16px;
   background:cornflowerblue;
   color: white;
+}
+
+@media screen and (max-width: 992px){
+  .search-bar-input {
+    margin-right: initial;
+    margin-bottom: 10px;
+  }
 }

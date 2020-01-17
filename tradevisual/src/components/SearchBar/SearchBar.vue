@@ -1,7 +1,7 @@
 <template>
   <div class="search-bar">
     <input class="search-bar-input" v-model="ticker" type="text" />
-    <button class="search-bar-submit" v-on:click="searchClick(ticker)">search new ticker</button>
+    <button class="search-bar-submit" v-on:click="searchClick(ticker)">search ticker</button>
   </div>
 </template>
 

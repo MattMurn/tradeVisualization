@@ -7,9 +7,9 @@
     <div v-if="showInfo" class="index-leaders">
       <div class="index-leaders-container index-leaders-sub">
       <span>Symbol</span>
-      <span v-if="title === 'Active'">Volume</span>
+      <span v-if="title === 'Active'">Volume(mm)</span>
       <span v-else>Price</span>
-      <span>Change(%)</span>
+      <span>Change</span>
       </div>
       <div
         @click="sendActive(info)"
