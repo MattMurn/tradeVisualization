@@ -14,7 +14,7 @@
     <div class="data-body">
     <div class="data-chart">
       <!-- <D3Chart :info="this.chartData"/> -->
-      <LineChart d3Id="lineChart" :info="this.chartData" :height="300" :width="600"/>
+      <LineChart d3Id="lineChart" :info="this.chartData" :height="400" :width="600"/>
     </div>
     <div class="app-qual-data">
       <CompanyInfo :info="this.companyData" />

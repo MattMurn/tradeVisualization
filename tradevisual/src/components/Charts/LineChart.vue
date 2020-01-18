@@ -9,7 +9,11 @@ export default {
   name: "LineChart",
   data: function() {
     return {
-      width: 0
+      width: 0,
+      xSc: null,
+      ySc: null,
+      svg: null,
+      dateTicks: null
     };
   },
   props: {
@@ -22,119 +26,115 @@ export default {
       d3.select(`#${this.d3Id}-svg`).remove();
     },
     initChartContainer: function() {
-      // const MARGIN = { top: 20, right: 10, bottom: 20, left: 10 };
-      // let width = 960 - margin.left - margin.right;
-      // let height = 500 - margin.top - margin.bottom;
-
-      //create range from min/max values of date & highs
-      // const xSpan = d3.extent(this.info);
-
-      // create the svg container
-      // d3.select(".line-svg-wrapper")
-      //   .append("svg")
-      //   .attr("id", `${this.d3Id}-svg`)
-      //   .style("height", this.height - 10)
-      //   .style("width", "100%");
-      // add group element
-      // d3.select(`#${this.d3Id}-svg`)
-      //   .append("g")
-      //   .attr("id", `#${this.d3Id}-g`);
-
-      //build x&y axis
-      // var yAxis = d3.axisRight().scale(ySc);
-      // d3.select(`#${this.d3Id}-svg`)
-      //   .append("g")
-      //   .attr("id", "yAxisG")
-      //   .style("color", "cornflowerblue")
-      //   .style("font-weight", 600)
-      //   .call(yAxis);
-
-      // var xAxis = d3.axisBottom().scale(xSc);
-      // d3.select(`#${this.d3Id}-svg`)
-      //   .append("g")
-      //   .attr("id", "xAxisG")
-      //   .style("color", "cornflowerblue")
-      //   .style("font-weight", 600)
-      //   .call(xAxis);
-    },
-    initLineChart: function() {
-      // this.initChartContainer();
-
-      //create range from min/max values of date & highs
-      // const xSpan = d3.extent(this.info);
+      // basic styles.
       let chartPadding = 20;
+      let margin = { top: 20, right: 20, bottom: 20, left: 20 };
       const ySpan = d3.extent(this.info.map(point => point.close));
-
-      const xSc = d3
+      // format dates -- remove year
+      this.dateTicks = this.info.map(point => {
+        return point.date
+          .split("-")
+          .slice(1)
+          .join("-");
+      });
+      // create scale for x axis
+      this.xSc = d3
         .scaleBand()
-        .domain(this.info.map(point => point.date))
-        .range([50, this.width - chartPadding]);
-
-      const ySc = d3
+        .domain(this.dateTicks)
+        .range([50, this.width]);
+      // create scale for y axis
+      this.ySc = d3
         .scaleLinear()
         .domain(ySpan)
         .range([this.height - chartPadding, 0]);
-
-      // // create the svg container
-      d3.select(".line-svg-wrapper")
+      // add svg to the parent by grabbing class.
+      this.svg = d3
+        .select(".line-svg-wrapper")
         .append("svg")
         .attr("id", `${this.d3Id}-svg`)
-        .style("height", this.height - 10)
-        .style("width", "100%");
-      // // add group element
-      d3.select(`#${this.d3Id}-svg`)
-        .append("g")
+        .style("height", this.height + margin.bottom + margin.top)
+        .style("width", this.width + margin.left + margin.right);
+    },
+    initLineChart: function() {
+      // create chart container.
+      this.destroyChart();
+      this.initChartContainer();
+
+      let parentGroup = d3
+        .select(`#${this.d3Id}-svg`)
         .attr("id", `#${this.d3Id}-g`);
 
       // //build x&y axis
-      var yAxis = d3.axisRight().scale(ySc);
-      d3.select(`#${this.d3Id}-svg`)
+      var yAxis = d3.axisLeft().scale(this.ySc);
+
+      this.svg
         .append("g")
         .attr("id", "yAxisG")
         .style("color", "cornflowerblue")
         .style("font-weight", 600)
+        .attr("transform", "translate(20,0)") //0,0 is top left.
         .call(yAxis);
 
-      // var xAxis = d3.axisBottom().scale(xSc);
-      // d3.select(`#${this.d3Id}-svg`)
-      //   .append("g")
-      //   .attr("id", "xAxisG")
-      //   .style("color", "cornflowerblue")
-      //   .style("font-weight", 600)
-      //   .call(xAxis);
+      var xAxis = d3
+        .axisBottom()
+        .scale(this.xSc)
+        .tickValues(this.dateTicks);
+
+      this.svg
+        .append("g")
+        .attr("id", "xAxisG")
+        .style("color", "cornflowerblue")
+        .style("font-weight", 600)
+        .attr("transform", `translate(0,${this.height - 5})`)
+        .call(xAxis);
 
       // add plot points to chart.
-      d3.select(`#${this.d3Id}-g`)
+      this.svg
         .selectAll("circle")
         .data(this.info)
         .enter()
         .append("circle")
         .attr("r", 1)
-        .attr("cx", d => xSc(d.date)) // buffer for border - TODO fix this.
-        .attr("cy", d => ySc(d.close) + 10) // buffer for border
+        .attr("cx", d => this.xSc(d.date)) // buffer for border - TODO fix this.
+        .attr("cy", d => this.ySc(d.close) + 10) // buffer for border
         .style("fill", "cornflowerblue");
 
       // create line paths -- needs to be same as plot points
-      var tweetLine = d3
+      var trendLine = d3
         .line()
-        .x(d => xSc(d.date))
-        .y(d => ySc(d.close) + 10);
-      d3.select(`#${this.d3Id}-svg`)
+        .x((d, i) => this.xSc(this.dateTicks[i]))
+        .y(d => this.ySc(d.close) + 10);
+
+      this.svg
         .append("path")
-        .attr("d", tweetLine(this.info))
+        .attr("d", trendLine(this.info))
         .attr("fill", "none")
         .attr("stroke", "cornflowerblue")
         .attr("stroke-width", 2);
+
+      // create hover functionality for line chart
+      let focus = parentGroup.append("g");
+
+      focus.attr("id", "focus").style("display", "none");
+      focus
+        .append("line")
+        .attr("class", "x-hover")
+        .attr("y1", 0)
+        .attr("y2", this.height);
+      focus
+        .append("line")
+        .attr("class", "y-hover-line hover-line")
+        .attr("x1", this.width)
+        .attr("x2", this.width);
+
     },
     initHistoChart: function() {
       // let histo = d3.histogram();
       // let histoChart = histo(this.info);
-
       // histo
       //   .domain(xSc.domain)
       //   .thresholds(d => d.length)
       //   .value(d => d.high);
-
       // d3.select("svg")
       //   .selectAll("rect")
       //   .data(histoChart)
@@ -142,9 +142,9 @@ export default {
       //   .append("rect")
       //   .attr("id", "test")
       //   .attr("x", d => xSc(d.date)) // buffer for border - TODO fix this.
-      //   .attr("y", d => ySc(d.close) + 10) // buffer for border
+      //   .attr("y", d => this.ySc(d.close) + 10) // buffer for border
       //   .attr("width", d => xSc(d.x1 - d.x0) - 2)
-      //   .attr("height", d => 400 - ySc(d.length))
+      //   .attr("height", d => 400 - this.ySc(d.length))
       //   .style("fill", "#FCD88B");
     }
   },

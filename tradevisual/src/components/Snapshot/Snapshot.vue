@@ -101,6 +101,8 @@ export default {
     if (!this.info) return;
     this.calcMid();
     this.calcFrom();
+  },
+  updated() {
   }
 };
 </script>
