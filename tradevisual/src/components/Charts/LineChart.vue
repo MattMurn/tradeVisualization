@@ -1,5 +1,6 @@
 <template>
   <div class="line-wrapper" id="line-wrapper-id">
+    <button @click="toggleChartType">{{chartType}}</button>
     <div class="line-svg-wrapper" v-if="this.info"></div>
   </div>
 </template>
@@ -13,7 +14,8 @@ export default {
       xSc: null,
       ySc: null,
       svg: null,
-      dateTicks: null
+      dateTicks: null,
+      chartType: "Histogram",
     };
   },
   props: {
@@ -22,7 +24,16 @@ export default {
     d3Id: String
   },
   methods: {
+    toggleChartType: function() {
+      if(this.chartType === "Line"){
+        this.chartType = "Histogram";
+      }
+      else if(this.chartType === "Histogram"){
+        this.chartType = "Line";
+      }
+    },
     destroyChart: function() {
+      this.svg = null;
       d3.select(`#${this.d3Id}-svg`).remove();
     },
     initChartContainer: function() {
@@ -62,10 +73,10 @@ export default {
 
       let parentGroup = d3
         .select(`#${this.d3Id}-svg`)
-        .attr("id", `#${this.d3Id}-g`);
+        .attr("id", `${this.d3Id}-g`);
 
       // //build x&y axis
-      var yAxis = d3.axisLeft().scale(this.ySc);
+      let yAxis = d3.axisLeft().scale(this.ySc);
 
       this.svg
         .append("g")
@@ -75,7 +86,7 @@ export default {
         .attr("transform", "translate(20,0)") //0,0 is top left.
         .call(yAxis);
 
-      var xAxis = d3
+      let xAxis = d3
         .axisBottom()
         .scale(this.xSc)
         .tickValues(this.dateTicks);
@@ -100,7 +111,7 @@ export default {
         .style("fill", "cornflowerblue");
 
       // create line paths -- needs to be same as plot points
-      var trendLine = d3
+      let trendLine = d3
         .line()
         .x((d, i) => this.xSc(this.dateTicks[i]))
         .y(d => this.ySc(d.close) + 10);
@@ -154,8 +165,15 @@ export default {
     ).parentElement.offsetWidth;
   },
   updated: function() {
-    this.destroyChart();
-    this.initLineChart();
+    // this.destroyChart();
+    // this.initLineChart();
+  },
+  watch: {
+    chartType: function() {
+    },
+    info: function() {
+      this.initLineChart();
+    }
   }
 };
 </script>
