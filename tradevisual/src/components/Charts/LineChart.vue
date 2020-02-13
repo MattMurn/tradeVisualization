@@ -1,6 +1,5 @@
 <template>
   <div class="line-wrapper" id="line-wrapper-id">
-    <!-- <button @click="toggleChartType">{{chartType}}</button> -->
     <div class="line-svg-wrapper" v-if="this.info"></div>
   </div>
 </template>
@@ -15,7 +14,7 @@ export default {
       ySc: null,
       svg: null,
       dateTicks: null,
-      chartType: "Histogram"
+      margin: {},
     };
   },
   props: {
@@ -24,21 +23,14 @@ export default {
     d3Id: String
   },
   methods: {
-    toggleChartType: function() {
-      if (this.chartType === "Line") {
-        this.chartType = "Histogram";
-      } else if (this.chartType === "Histogram") {
-        this.chartType = "Line";
-      }
-    },
     destroyChart: function() {
       this.svg = null;
       d3.select(`#${this.d3Id}-svg`).remove();
     },
     initChartContainer: function() {
       // basic styles.
-      let chartPadding = 20;
-      let margin = { top: 20, right: 20, bottom: 20, left: 20 };
+      let chartPadding = 10;
+      let margin = { top: 20, right: 20, bottom: 100, left: 10 };
       const ySpan = d3.extent(this.info.map(point => point.close));
       // format dates -- remove year
       this.dateTicks = this.info.map(point => {
@@ -80,7 +72,7 @@ export default {
         .attr("id", "yAxisG")
         .style("color", "cornflowerblue")
         .style("font-weight", 600)
-        .attr("transform", "translate(20,0)") //0,0 is top left.
+        .attr("transform", "translate(30,10)") //0,0 is top left.
         .call(yAxis);
 
       let xAxis = d3
@@ -93,7 +85,8 @@ export default {
         .attr("id", "xAxisG")
         .style("color", "cornflowerblue")
         .style("font-weight", 600)
-        .attr("transform", `translate(0,${this.height - 5})`)
+        .attr("transform", `translate(0,${this.height + 20})`)
+
         .call(xAxis);
 
       // add plot points to chart.
@@ -102,7 +95,7 @@ export default {
         .data(this.info)
         .enter()
         .append("circle")
-        .attr("r", 1)
+        .attr("r", 0)
         .attr("cx", d => this.xSc(d.date)) // buffer for border - TODO fix this.
         .attr("cy", d => this.ySc(d.close) + 10) // buffer for border
         .style("fill", "cornflowerblue");
@@ -135,73 +128,6 @@ export default {
         .attr("x1", this.width)
         .attr("x2", this.width);
     },
-    initHistoChart: function() {
-      // create a histogram chart using the same initial chart container that is being used by the line chart.
-      // this.destroyChart();
-      this.initChartContainer();
-      let histo = d3.histogram();
-      histo
-        .domain([0, 5])
-        .thresholds(this.xSc.domain())
-        .value(d => d.close);
-      console.log(this.info);
-      let histoData = histo(this.info);
-      console.log(histoData);
-      d3.select(`#${this.d3Id}-svg`)
-        .selectAll("rect")
-        .data(histoData)
-        .enter()
-        .append("rect")
-        // .attr("x", 10)
-        // .attr("y", 10)
-        // .attr("width", 50)
-        // .attr("height", 100)
-        .attr("x", (d, i) =>  i*10)
-        .attr("y", (d,i) => i*10)
-        .attr("width", 100)
-        .attr("height", (d,i) => i* 10)
-        .style("fill", "#FCD88B");
-      d3.select(`#${this.d3Id}-svg`)
-        .append("g")
-        .attr("class", "x axis")
-        .attr("transform", "translate(0,40)")
-        .call(this.xSc);
-      d3.select("g.axis")
-        .selectAll("text")
-        .attr("dx", 50);
-
-
-//  var xScale = d3.scaleLinear().domain([ 0, 5 ]).range([ 0, 500 ]);
-//   //  var yScale = d3.scaleLinear().domain([ 0, 10 ]).range([ 400, 0 ]);
-//    var xAxis = d3.axisBottom().scale(xScale).ticks(5)
-//    var histoChart = d3.histogram();
-
-//    histoChart
-//     .domain([ 0, 5 ])
-//     .thresholds(this.xSc.domain())
-//     .value(d => d.high)
-
-// let histoData = histoChart(this.info);
-//   console.log(histoData);
-//   d3.select(`lineChart--svg`)
-//     .append("rect")
-//     .attr("x", 100)
-//     .attr("y", 100)
-//     .attr("width", 100)
-//     .attr("height", 100)
-//       // .data(histoData).enter()
-//       // .append("rect")
-//       // .attr("x", d => xScale(d.x0))
-//       // .attr("y", d => yScale(d.length))
-//       // .attr("width", d => xScale(d.x1 - d.x0) - 2)
-//       // .attr("height", d => 400 - yScale(d.length))
-//     .style("fill", "#FCD88B")
-
-//   d3.select(`${this.d3Id}--svg`).append("g").attr("class", "x axis")
-//     .attr("transform", "translate(0,400)").call(xAxis);
-//   d3.select("g.axis").selectAll("text").attr("dx", 50);
-
-    }
   },
   mounted: function() {
     this.width = document.getElementById(
@@ -212,8 +138,7 @@ export default {
     chartType: function() {},
     info: function() {
       this.destroyChart();
-      // this.initLineChart();
-      this.initHistoChart();
+      this.initLineChart();
     }
   }
 };

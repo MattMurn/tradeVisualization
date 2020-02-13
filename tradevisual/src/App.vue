@@ -14,11 +14,13 @@
     <div class="data-body">
     <div class="data-chart">
       <!-- <D3Chart :info="this.chartData"/> -->
-      <LineChart d3Id="lineChart" :info="this.chartData" :height="400" :width="600"/>
+      <LineChart d3Id="lineChart" :info="this.chartData" :height="400"/>
+      <!-- <Histogram d3Id="histogram" :info="this.chartData" :height="400"/> -->
     </div>
     <div class="app-qual-data">
       <CompanyInfo :info="this.companyData" />
       <Snapshot :info="this.snapshotData" />
+      <Pie :info="this.chartData"/>
     </div>
     </div>
   </div>
@@ -34,7 +36,8 @@ remove grid/change to 1 column with all 10.
 import Leaders from "./components/Leaders/Leaders.vue";
 import CompanyInfo from "./components/CompanyInfo/CompanyInfo.vue";
 import LineChart from "./components/Charts/LineChart.vue";
-
+import Pie from "./components/Charts/Pie.vue";
+// import Histogram from "./components/Charts/Histogram.vue";
 import SearchBar from "./components/SearchBar/SearchBar.vue";
 import Snapshot from "./components/Snapshot/Snapshot.vue";
 import { getChartData, getSnapshotData, getCompanyInfo, getIndexLeaders, /*getSectorData*/ } from "./routes.js";
@@ -43,6 +46,8 @@ export default {
   components: {
     Leaders,
     LineChart,
+    // Histogram,
+    Pie,
     CompanyInfo,
     SearchBar,
     Snapshot
