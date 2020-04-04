@@ -9,7 +9,7 @@ module.exports = app => {
     return app.get(`/product-source/${route}/:ticker`, (req, res) => {
       axios
         .get(
-          `https://sandbox.iexapis.com/v1/stock/${req.params.ticker}/${route}?token=${process.env.IEX}`,
+          `https://cloud.iexapis.com/stable/stock/${req.params.ticker}/${route}?token=${process.env.IEX}`,
         )
         .then((response) => res.json(response.data))
         .catch(() => res.status(500).json('api response not received.'));
