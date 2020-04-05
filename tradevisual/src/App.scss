@@ -1,0 +1,86 @@
+
+$main-c: "seashell";
+$secondary-c: #4d5053;
+$font-size: "16px";
+
+
+body {
+  background: $main-c;
+  margin: 0;
+}
+#app {
+  display: flex;
+  flex-direction: column;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #4d5053;
+
+}
+.header-container {
+  position: fixed;
+  width: 100%;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: auto;
+  background: #4d5053;
+}
+
+.body-container {
+  margin-top: 130px;
+}
+
+.cur-company {
+  height: 60px;
+  margin: 20px 0;
+
+}
+
+.flex-data-wrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.app-title {
+  display: flex;
+  text-align: left;
+  padding-left: 50px;
+  font-size: 34px;
+  font-weight: bold;
+  color: cornflowerblue;
+}
+
+.data-body {
+  flex-basis: 70%;
+  flex-direction: column;
+}
+
+.app-qual-data {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.data-side-nav {
+  display: flex;
+  min-width: 350px;
+  /* flex-basis: 30%; */
+  flex-direction: column;
+}
+  @media screen and (max-width: 992px) {
+    .data-body {
+      order: 1;
+      flex-basis: 90%;
+    }
+    .data-side-nav {
+      order: 2;
+    }
+    .app-qual-data {
+      flex-wrap: wrap;
+    }
+  }
