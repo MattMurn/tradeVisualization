@@ -14,7 +14,7 @@ const getCompanyInfo = async ticker => {
   let response = await axios(`/product-source/company/${ticker}`);
   return response;
 }
-const getChartData = async (range="1m", ticker)  => {
+const getChartData = async (ticker, range="1m")  => {
   let response = await axios(`/product-source/chart/${range}/${ticker}`);
   return response;
 }

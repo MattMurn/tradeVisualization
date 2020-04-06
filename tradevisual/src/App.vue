@@ -103,13 +103,13 @@ export default {
         this.companyData = data.data;
         this.curCompany = data.data.companyName;
       });
-      getChartData("1m", activeData.symbol).then(data => {
+      getChartData(activeData.symbol).then(data => {
         this.chartData = data.data;
       });
       this.snapshotData = activeData;
     },
     updateAreaChart: function(range) {
-      getChartData(range, this.symbol).then(data => {
+      getChartData(this.symbol, range).then(data => {
         this.chartData = data.data;
       })
     }
