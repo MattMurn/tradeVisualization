@@ -56,7 +56,6 @@ body {
 }
 
 .data-body {
-  flex-basis: 70%;
   flex-direction: column;
 }
 
@@ -73,6 +72,10 @@ body {
   min-width: 350px;
   /* flex-basis: 30%; */
   flex-direction: column;
+}
+
+.data-chart {
+  max-width: 800px;
 }
   @media screen and (max-width: 992px) {
     .data-body {

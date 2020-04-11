@@ -33,7 +33,7 @@
             <AreaChart d3Id="areaChart" @handleChartUpdate="updateAreaChart" :info="this.chartData" :height="300" :width="600" />
             <!-- <Histogram d3Id="histogram" :info="this.chartData" :height="400"/> -->
           </div>
-          <div class="app-qual-data">
+          <div class="app-qual-data" v-if="this.curCompany">
             <CompanyInfo :info="this.companyData" />
             <Snapshot :info="this.snapshotData" />
           </div>
@@ -98,6 +98,8 @@ export default {
       });
     },
     handleActiveSubmit: function(activeData) {
+      if(this.symbol === activeData.symbol) return;        
+      
       this.symbol = activeData.symbol;
       getCompanyInfo(activeData.symbol).then(data => {
         this.companyData = data.data;

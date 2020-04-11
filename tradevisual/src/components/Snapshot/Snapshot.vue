@@ -67,7 +67,7 @@ export default {
   name: "Snapshot",
   data: () => {
     return {
-      snapshotShow: false,
+      snapshotShow: true,
       midPoint: "",
       fromHigh: "",
       fromLow: ""

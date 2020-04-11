@@ -30,7 +30,7 @@ export default {
   name: "CompanyInfo",
   data: () => {
     return {
-      companySearch: false
+      companySearch: true
     };
   },
   props: {
