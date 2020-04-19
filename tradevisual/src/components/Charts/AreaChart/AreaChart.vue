@@ -3,7 +3,6 @@
     <div class="area-hover-wrapper">
       <div class="area-hover-data-wrapper" v-if="this.chartDataLoaded">
         <div class="area-hover-data">
-          <span>session:</span>
           <span>{{this.date}}</span>
         </div>
         <div class="area-hover-data">
@@ -69,7 +68,6 @@ export default {
         .attr("width", this.svgWidth)
         .attr("height", this.svgHeight)
         .append("g")
-        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
       this.xScale = d3
         .scaleTime()
@@ -78,7 +76,7 @@ export default {
 
       this.yScale = d3
         .scaleLinear()
-        .domain([d3.max(this.info, d => d.close), 0])
+        .domain(d3.extent(this.info, d => d.close))
         .range([0, this.svgHeight]);
 
       this.focus = this.svg
@@ -100,7 +98,7 @@ export default {
         d3.extent(this.info, d => d3.timeParse("%Y-%m-%d")(d.date))
       );
 
-      this.yScale.domain([d3.max(this.info, d => d.close), 0]);
+      this.yScale.domain(d3.extent(this.info, d => d.close));
       // add focus
       this.svg
         .append("rect")
@@ -163,8 +161,8 @@ export default {
           d3
             .area()
             .x(d => this.xScale(d3.timeParse("%Y-%m-%d")(d.date)))
-            .y0(this.yScale(0))
-            .y1(d => this.yScale(d.close))
+            // .y0(this.yScale(0))
+            .y(d => this.yScale(d.close))
         );
     },
     updateChartRequest: function(range) {
@@ -183,7 +181,6 @@ export default {
   },
   mounted: function() {},
   watch: {
-    chartType: function() {},
     info: function() {
       if (this.chartDataLoaded) {
         this.updateAreaChart();

@@ -1,5 +1,6 @@
 <template>
   <div class="index-leaders-wrapper">
+    <!-- <treemap :info="this.info" :targetAttribute="this.id" :id="`${this.id}--treemap`"/> -->
     <div class="index-leaders-header">
     <h1 @click="leaderClick()">{{title}}</h1>
     <Tooltip :id="title" top="0" right="10px"/>
@@ -28,12 +29,13 @@
 </template>
 
 <script>
-import * as d3 from "d3";
 import Tooltip from "../Tooltip/Tooltip.vue";
+// import Treemap from "../Charts/Treemap/Treemap.vue";
 export default {
   name: "Leaders",
   components: {
-    Tooltip
+    Tooltip,
+    // Treemap
   },
   data: () => {
     return {
@@ -51,93 +53,7 @@ export default {
     sendActive: function(symbol) {
       this.$emit("handleActiveSubmit", symbol);
     },
-    destroyChart: function() {
-      d3.select(`#${this.id}-svg`).remove();
-    },
-    renderChart: function() {
-      /*
-      creating a chart shows the current change of each leader board.
-      x axis is net change,
-      y axis is current volume.
-      circle size is their market cap.
-      */
-      let color = "#fff";
-      let margin = { top: 10, right: 10, bottom: 10, left: 10 };
-      // let volumeTicks = [1000, 750, 500, 250, 0];
-      this.destroyChart();
-      // create svg
-
-      let targetSvg = d3
-        .select(`#${this.id}`)
-        .append("svg")
-        .attr("id", `${this.id}-svg`)
-        .style("height", `100%`)
-        .style("width", `100%`)
-        .style("fill", color)
-        .style("background", "cornflowerblue");
-      // create scale - issues with marketCap
-      let xScale = d3
-        .scaleLinear()
-        .domain([-1,1])
-        .range([0, 400]);
-      let yScale = d3
-        .scaleLinear()
-        .domain([1000000,100000])
-        .range([0, 240]);
-
-      let g = targetSvg
-        .append("g")
-        .attr("transform", "translate(" + margin.top + "," + margin.top + ")");
-
-      g.selectAll('circle')
-      .data(this.info)
-      .enter()
-      .append('circle')
-      .attr('class', 'data-pt')
-      .attr('r', d => {
-        // determine radius on large, mid, small cap.
-        if(d.marketCap > 5000000000) {
-          return 15;
-        }
-        else if(d.marketCap < 5000000000 && d.marketCap > 1000000000){
-          return 10;
-        }
-        else {
-          return 5;
-        }
-      })
-      .attr('cx', d => xScale(d.changePercent))
-      .attr('cy', d => (d.volume) ? yScale(d.volume/ 10000) : xScale.range()[1]/2)
-      .style('fill', d => (d.marketCap > 10000000000) ? 'pink' : '#ccc')
-
-      g.selectAll('.data-pt')
-      .append('text')
-      .text(d => d.symbol)
-      .attr('y', 200)
-
-      g.append("g")
-        .attr("class", "x axis")
-        .attr("transform", "translate(0," + yScale.range()[1] / 2 + ")")
-        .call(d3.axisBottom(xScale).ticks(4));
-
-      g.append("g")
-        .attr("class", "y axis")
-        .attr("transform", "translate(" + xScale.range()[1] / 2 + ", 0)")
-        .call(d3.axisLeft(yScale).ticks(4));
-
-
-    },
-    leaderClick: function() {
-      this.showInfo = !this.showInfo;
-      this.showChart = !this.showChart;
-        this.destroyChart();
-      if(this.showChart){
-        this.renderChart();
-      }
-      else {
-        this.showInfo = true;
-      }
-    }
+   
   }
 };
 </script>

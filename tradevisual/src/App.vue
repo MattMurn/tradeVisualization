@@ -5,23 +5,25 @@
       <SearchBar @handleSymbolSubmit="handleSubmit" />
     </div>
     <div class="body-container">
-      <h1 class="cur-company">{{this.curCompany}}</h1>
+      <div class="current-company-contianer">
+        <h1 class="cur-company">{{this.curCompany}} <span :class="(this.curCompanyChange > 0) ? 'company-change percent--positive': 'company-change percent--negative'">{{this.curCompanyChange}}%</span></h1>
+      </div>
       <div class="flex-data-wrapper">
         <div class="data-side-nav">
           <Leaders
-            id="active"
+            id="volume"
             title="Active"
             @handleActiveSubmit="handleActiveSubmit"
             :info="this.mostActiveData"
           />
           <Leaders
-            id="winners"
+            id="changePercent"
             title="Winners"
             @handleActiveSubmit="handleActiveSubmit"
             :info="this.gainersData"
           />
           <Leaders
-            id="losers"
+            id="changePercent"
             title="Losers"
             @handleActiveSubmit="handleActiveSubmit"
             :info="this.losersData"
@@ -34,8 +36,8 @@
             <!-- <Histogram d3Id="histogram" :info="this.chartData" :height="400"/> -->
           </div>
           <div class="app-qual-data" v-if="this.curCompany">
-            <CompanyInfo :info="this.companyData" />
             <Snapshot :info="this.snapshotData" />
+            <CompanyInfo :info="this.companyData" />
           </div>
         </div>
       </div>
@@ -73,6 +75,7 @@ export default {
     return {
       symbol: "",
       curCompany: "",
+      curCompanyChange: "",
       mostActiveData: [],
       gainersData: [],
       losersData: [],
@@ -80,7 +83,8 @@ export default {
       iexPercentData: [],
       companyData: [],
       snapshotData: [],
-      chartData: []
+      chartData: [],
+      defaultSymbols: ["SPY", "F", "BAC", "PTON", "TSLA", "UCO"]
     };
   },
   methods: {
@@ -95,6 +99,7 @@ export default {
       });
       getSnapshotData(symbol).then(data => {
         this.snapshotData = data.data;
+        this.curCompanyChange = (this.snapshotData.changePercent *100).toFixed(2);
       });
     },
     handleActiveSubmit: function(activeData) {
@@ -109,6 +114,8 @@ export default {
         this.chartData = data.data;
       });
       this.snapshotData = activeData;
+      this.curCompanyChange = (this.snapshotData.changePercent *100).toFixed(2);
+
     },
     updateAreaChart: function(range) {
       getChartData(this.symbol, range).then(data => {
@@ -130,9 +137,8 @@ export default {
       if (!data) return;
       this.losersData = data.data;
     });
-    // getSectorData().then(data => {
-    //   console.log(data);
-    // })
+    let randomIndex = Math.floor(Math.random() * Math.floor(this.defaultSymbols.length-1));
+    this.handleSubmit(this.defaultSymbols[randomIndex]);
   }
 };
 </script>

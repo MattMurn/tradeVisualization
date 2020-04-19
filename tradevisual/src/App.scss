@@ -73,6 +73,21 @@ body {
   /* flex-basis: 30%; */
   flex-direction: column;
 }
+.current-company-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.company-change  {
+  margin-left: 50px;
+}
+.percent--negative {
+  color: #f45531;
+}
+
+.percent--positive {
+  color: #21ce99;
+}
 
 .data-chart {
   max-width: 800px;
